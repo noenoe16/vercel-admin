@@ -127,6 +127,14 @@ class AppServiceProvider extends ServiceProvider
         \Livewire\Livewire::component('fm-search', \App\Livewire\Messages\Search::class);
         \Livewire\Livewire::component('username-component', \App\Livewire\UsernameComponent::class);
 
+        // 🔐 AUTH COMPONENTS (FOR PASSWORD RESET FLOW)
+        \Livewire\Livewire::component('app.filament.auth.login', \App\Filament\Auth\Login::class);
+        \Livewire\Livewire::component('app.filament.auth.register', \App\Filament\Auth\Register::class);
+        \Livewire\Livewire::component('app.filament.auth.otp-request-password-reset', \App\Filament\Auth\OtpRequestPasswordReset::class);
+        \Livewire\Livewire::component('app.filament.auth.otp-reset-password', \App\Filament\Auth\OtpResetPassword::class);
+        \Livewire\Livewire::component('app.filament.auth.verify-otp', \App\Filament\Auth\VerifyOtp::class);
+        \Livewire\Livewire::component('app.filament.auth.otp-email-verification-prompt', \App\Filament\Auth\OtpEmailVerificationPrompt::class);
+
         // 📱 GLOBAL MOBILE AREA OPTIMIZATION
         // Automatically make ALL Tables into a Card-like layout natively on Mobile
         $isMobile = PHP_OS_FAMILY !== 'Windows' && !isset($_SERVER['REMOTE_ADDR']) && !env('DOCKER_ENV');
