@@ -17,24 +17,24 @@ class PaymentsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('payment_number')
-                    ->label('Nomor Pembayaran')
+                    ->label(__('Nomor Pembayaran'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('total_amount')
-                    ->label('Total Jumlah')
+                    ->label(__('Total Jumlah'))
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
                 Forms\Components\Select::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->options(\App\Models\Payment::statusLabels())
                     ->required(),
                 Forms\Components\Select::make('payment_method')
-                    ->label('Metode Pembayaran')
+                    ->label(__('Metode Pembayaran'))
                     ->options(\App\Models\Payment::paymentMethodLabels())
                     ->required(),
                 Forms\Components\FileUpload::make('payment_proof')
-                    ->label('Bukti Pembayaran')
+                    ->label(__('Bukti Pembayaran'))
                     ->image()
                     ->directory('payment-proofs')
                     ->columnSpanFull(),
@@ -47,24 +47,24 @@ class PaymentsRelationManager extends RelationManager
             ->recordTitleAttribute('payment_number')
             ->columns([
                 Tables\Columns\TextColumn::make('payment_number')
-                    ->label('Nomor Pembayaran')
+                    ->label(__('Nomor Pembayaran'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_amount')
-                    ->label('Total')
+                    ->label(__('Total'))
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->label('Metode'),
+                    ->label(__('Metode')),
                 Tables\Columns\ImageColumn::make('payment_proof')
-                    ->label('Bukti')
+                    ->label(__('Bukti'))
                     ->width(50)
                     ->height(50)
                     ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('paid_at')
-                    ->label('Dibayar Pada')
+                    ->label(__('Dibayar Pada'))
                     ->dateTime()
                     ->sortable(),
             ])
@@ -77,14 +77,14 @@ class PaymentsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('verify')
-                    ->label('Verifikasi')
+                    ->label(__('Verifikasi'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
                     ->visible(fn ($record) => $record->status === 'processing')
                     ->action(fn ($record) => $record->markAsSuccess()),
                 Tables\Actions\Action::make('reject')
-                    ->label('Tolak')
+                    ->label(__('Tolak'))
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
@@ -92,7 +92,7 @@ class PaymentsRelationManager extends RelationManager
                     ->form([
                         Forms\Components\Textarea::make('reason')
                             ->required()
-                            ->label('Alasan Penolakan'),
+                            ->label(__('Alasan Penolakan')),
                     ])
                     ->action(fn ($record, array $data) => $record->markAsFailed($data['reason'])),
                 Tables\Actions\EditAction::make(),

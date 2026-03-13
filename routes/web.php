@@ -12,3 +12,6 @@ Route::get('/mobile/settings', function () {
     \Native\Mobile\Facades\System::appSettings();
     return back();
 })->name('mobile.settings')->middleware(['auth']);
+
+Route::get('/filament/language-switcher', [\App\Http\Controllers\LanguageSwitcherController::class, 'index'])
+    ->name('lang.switch');

@@ -17,13 +17,21 @@ class VoucherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
 
-    protected static ?string $navigationLabel = 'Voucher Promo';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'code';
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Voucher Promo');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -37,7 +45,7 @@ class VoucherResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Voucher Promo';
+        return __('Total Voucher Promo');
     }
 
     public static function getGloballySearchableAttributes(): array
@@ -49,32 +57,32 @@ class VoucherResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Voucher Details')
-                    ->description('General information about the voucher.')
+                Forms\Components\Section::make(__('Detail Voucher'))
+                    ->description(__('Informasi umum tentang voucher.'))
                     ->schema([
                         Forms\Components\TextInput::make('code')
-                            ->label('Voucher Code')
+                            ->label(__('Kode Voucher'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
                         Forms\Components\TextInput::make('description')
-                            ->label('Description')
+                            ->label(__('Deskripsi'))
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Discount Configuration')
-                    ->description('Settings for the discount value.')
+                Forms\Components\Section::make(__('Konfigurasi Diskon'))
+                    ->description(__('Pengaturan nilai diskon.'))
                     ->schema([
                         Forms\Components\TextInput::make('discount_amount')
-                            ->label('Discount Amount')
+                            ->label(__('Jumlah Diskon'))
                             ->required()
                             ->numeric()
                             ->prefix('Rp'),
                         Forms\Components\ToggleButtons::make('discount_type')
-                            ->label('Discount Type')
+                            ->label(__('Tipe Diskon'))
                             ->options([
-                                'fixed' => 'Fixed Amount (Rp)',
-                                'percentage' => 'Percentage (%)',
+                                'fixed' => __('Jumlah Tetap (Rp)'),
+                                'percentage' => __('Persentase (%)'),
                             ])
                             ->icons([
                                 'fixed' => 'heroicon-m-currency-dollar',
@@ -89,18 +97,18 @@ class VoucherResource extends Resource
                             ->inline()
                             ->reactive(),
                         Forms\Components\TextInput::make('min_purchase')
-                            ->label('Minimum Purchase')
+                            ->label(__('Pembelian Minimum'))
                             ->numeric()
                             ->prefix('Rp'),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Availability Settings')
-                    ->description('Manage when the voucher is valid and its status.')
+                Forms\Components\Section::make(__('Pengaturan Ketersediaan'))
+                    ->description(__('Kelola waktu berlaku voucher dan statusnya.'))
                     ->schema([
                         Forms\Components\DateTimePicker::make('expires_at')
-                            ->label('Expiration Date'),
+                            ->label(__('Tanggal Kadaluarsa')),
                         Forms\Components\Toggle::make('is_active')
-                            ->label('Is Active')
+                            ->label(__('Status Aktif'))
                             ->default(true)
                             ->required(),
                     ])->columns(2),
@@ -112,16 +120,16 @@ class VoucherResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('Code')
+                    ->label(__('Kode'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('discount_amount')
-                    ->label('Discount')
+                    ->label(__('Diskon'))
                     ->money('IDR')
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('discount_type')
-                    ->label('Type')
+                    ->label(__('Tipe'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'fixed' => 'info',
@@ -129,17 +137,17 @@ class VoucherResource extends Resource
                     })
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('expires_at')
-                    ->label('Expires At')
+                    ->label(__('Kadaluarsa Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->boolean()
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('Dibuat Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -147,7 +155,7 @@ class VoucherResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
+                    ->label(__('Status Aktif')),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -161,8 +169,8 @@ class VoucherResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Voucher updated')
-                            ->body('The voucher has been updated successfully.')
+                            ->title(__('Voucher diperbarui'))
+                            ->body(__('Voucher telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -171,8 +179,8 @@ class VoucherResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Voucher deleted')
-                            ->body('The voucher has been deleted successfully.')
+                            ->title(__('Voucher dihapus'))
+                            ->body(__('Voucher telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

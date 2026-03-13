@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TopupResource\Pages;
 use App\Models\Topup;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
 
 class TopupResource extends Resource
@@ -15,11 +17,17 @@ class TopupResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationGroup = 'Transactions';
-
-    protected static ?string $navigationLabel = 'Topup Saldo';
-
     protected static ?int $navigationSort = 6;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Topup Saldo');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -33,7 +41,7 @@ class TopupResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Topup Saldo';
+        return __('Total Topup Saldo');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
@@ -41,40 +49,52 @@ class TopupResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label(__('Nama Pengguna'))
                     ->relationship('user', 'full_name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('reference_number')
+                    ->label(__('Nomor Referensi'))
                     ->required()
                     ->disabled()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
+                    ->label(__('Jumlah'))
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
                 Forms\Components\TextInput::make('admin_fee')
+                    ->label(__('Biaya Admin'))
                     ->required()
                     ->numeric()
                     ->default(0.00)
                     ->prefix('Rp'),
                 Forms\Components\TextInput::make('total_amount')
+                    ->label(__('Total Jumlah'))
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
                 Forms\Components\TextInput::make('payment_method')
+                    ->label(__('Metode Pembayaran'))
                     ->maxLength(255),
                 Forms\Components\Select::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'pending' => 'Pending',
-                        'success' => 'Success',
-                        'failed' => 'Failed',
-                        'cancelled' => 'Cancelled',
+                        'pending' => __('Tertunda'),
+                        'success' => __('Berhasil'),
+                        'failed' => __('Gagal'),
+                        'cancelled' => __('Dibatalkan'),
                     ])
                     ->required(),
                 Forms\Components\FileUpload::make('payment_proof')
+                    ->label(__('Bukti Pembayaran'))
                     ->image()
                     ->directory('payment-proofs'),
-                Forms\Components\DateTimePicker::make('paid_at'),
+                Forms\Components\DateTimePicker::make('paid_at')
+                    ->label(__('Dibayar Pada')),
                 Forms\Components\Textarea::make('notes')
+                    ->label(__('Catatan'))
                     ->columnSpanFull(),
             ]);
     }
@@ -84,19 +104,23 @@ class TopupResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('reference_number')
+                    ->label(__('Nomor Referensi'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.full_name')
-                    ->label('Nama User')
+                    ->label(__('Nama Pengguna'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label(__('Jumlah'))
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_amount')
-                    ->money('IDR')
-                    ->label('Total Bayar'),
+                    ->label(__('Total Bayar'))
+                    ->money('IDR'),
                 Tables\Columns\TextColumn::make('payment_method')
+                    ->label(__('Metode Pembayaran'))
                     ->badge(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
@@ -105,25 +129,29 @@ class TopupResource extends Resource
                         'cancelled' => 'gray',
                     }),
                 Tables\Columns\ImageColumn::make('payment_proof')
-                    ->label('Bukti'),
+                    ->label(__('Bukti')),
                 Tables\Columns\TextColumn::make('paid_at')
+                    ->label(__('Dibayar Pada'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Dibuat Pada'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'pending' => 'Pending',
-                        'success' => 'Success',
-                        'failed' => 'Failed',
+                        'pending' => __('Tertunda'),
+                        'success' => __('Berhasil'),
+                        'failed' => __('Gagal'),
                     ]),
             ])
             ->actions([
                 Tables\Actions\Action::make('approve')
+                    ->label(__('Setujui'))
                     ->visible(fn (Topup $record) => $record->status === 'pending')
                     ->color('success')
                     ->icon('heroicon-o-check')
@@ -141,6 +169,7 @@ class TopupResource extends Resource
                         });
                     }),
                 Tables\Actions\Action::make('reject')
+                    ->label(__('Tolak'))
                     ->visible(fn (Topup $record) => $record->status === 'pending')
                     ->color('danger')
                     ->icon('heroicon-o-x-mark')
@@ -148,7 +177,7 @@ class TopupResource extends Resource
                     ->size('lg')
                     ->requiresConfirmation()
                     ->form([
-                        Forms\Components\Textarea::make('notes')->label('Alasan Penolakan')->required(),
+                        Forms\Components\Textarea::make('notes')->label(__('Alasan Penolakan'))->required(),
                     ])
                     ->action(function (Topup $record, array $data): void {
                         $record->update([

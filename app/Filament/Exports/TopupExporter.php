@@ -15,7 +15,7 @@ class TopupExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('user.id'),
             ExportColumn::make('reference_number'),
             ExportColumn::make('amount'),

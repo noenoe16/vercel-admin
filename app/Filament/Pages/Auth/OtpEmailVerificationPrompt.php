@@ -45,11 +45,11 @@ class OtpEmailVerificationPrompt extends BasePrompt
         Cache::put('otp_' . $user->id, $otp, now()->addMinutes(15));
 
         Mail::send('emails.otp', [
-            'title' => 'Email Verification',
-            'description' => 'We received a request to verify your email address. Please use the following code to complete the verification process. This code is valid for 15 minutes.',
+            'title' => 'Verifikasi Email',
+            'description' => 'Kami menerima permintaan untuk memverifikasi alamat email Anda. Silakan gunakan kode berikut untuk menyelesaikan proses verifikasi. Kode ini berlaku selama 15 menit.',
             'otp' => $otp,
         ], function ($message) use ($user) {
-            $message->to($user->email)->subject('Email Verification Code');
+            $message->to($user->email)->subject('Kode Verifikasi Email');
         });
     }
 
@@ -65,12 +65,12 @@ class OtpEmailVerificationPrompt extends BasePrompt
             Cache::forget('otp_' . $user->id);
             Cache::forget('otp_sent_' . $user->id);
 
-            Notification::make()->title('Email verified successfully!')->success()->send();
+            Notification::make()->title(__('Email berhasil diverifikasi!'))->success()->send();
 
             $this->redirect(Filament::getUrl());
         } else {
             Notification::make()
-                ->title('Invalid or expired verification code.')
+                ->title(__('Kode verifikasi tidak valid atau telah kadaluarsa.'))
                 ->danger()
                 ->send();
         }
@@ -81,8 +81,8 @@ class OtpEmailVerificationPrompt extends BasePrompt
         return $form
             ->schema([
                 TextInput::make('otp')
-                    ->label('Verification Code')
-                    ->placeholder('Enter 6-digit code')
+                    ->label(__('Kode Verifikasi'))
+                    ->placeholder(__('Masukkan 6 digit kode'))
                     ->required()
                     ->length(6)
                     ->numeric()
@@ -95,7 +95,7 @@ class OtpEmailVerificationPrompt extends BasePrompt
     {
         return [
             Action::make('verify')
-                ->label('Verify')
+                ->label(__('Verifikasi'))
                 ->submit('verify'),
         ];
     }
@@ -107,6 +107,6 @@ class OtpEmailVerificationPrompt extends BasePrompt
 
     public function getHeading(): string|Htmlable
     {
-        return "Verify your Email";
+        return "Verifikasi Email Anda";
     }
 }

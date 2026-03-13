@@ -6,12 +6,16 @@ use Filament\Widgets\ChartWidget;
 
 class OrdersChart extends ChartWidget
 {
-    protected static ?string $heading = 'Recent Orders Count';
-    
     protected static ?string $pollingInterval = null; // Disable mobile polling
     
     protected static ?int $sort = 3;
 
+
+    
+    public function getHeading(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return __('Jumlah Pesanan');
+    }
 
     protected function getData(): array
     {
@@ -31,7 +35,7 @@ class OrdersChart extends ChartWidget
 
         for ($i = 5; $i >= 0; $i--) {
             $month = now()->subMonths($i)->format('m');
-            $labels[] = now()->subMonths($i)->format('M');
+            $labels[] = now()->subMonths($i)->translatedFormat('M');
 
             // Handle key mismatch (some DBs return '01', some return 1)
             $val = $data[$month] ?? $data[(int) $month] ?? 0;
@@ -41,7 +45,7 @@ class OrdersChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Orders',
+                    'label' => __('Pesanan'),
                     'data' => $counts,
                     'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
                     'borderColor' => 'rgb(59, 130, 246)',

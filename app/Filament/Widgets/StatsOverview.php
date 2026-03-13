@@ -50,20 +50,20 @@ class StatsOverview extends BaseWidget
         $newOrderCount = \App\Models\Order::where('created_at', '>=', now()->subDays(7))->count();
 
         return [
-            Stat::make('Total Users', \App\Models\User::count())
-                ->description($newUserCount . ' new this week')
+            Stat::make(__('Total Pengguna'), \App\Models\User::count())
+                ->description($newUserCount . ' ' . __('baru minggu ini'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart($userCounts)
                 ->color('success'),
 
-            Stat::make('Total Orders', \App\Models\Order::count())
-                ->description($newOrderCount . ' new this week')
+            Stat::make(__('Total Pesanan'), \App\Models\Order::count())
+                ->description($newOrderCount . ' ' . __('baru minggu ini'))
                 ->descriptionIcon('heroicon-m-shopping-bag')
                 ->chart($orderCounts)
                 ->color('info'),
 
-            Stat::make('Total Revenue', 'IDR ' . number_format($totalRevenue, 0, ',', '.'))
-                ->description('IDR ' . number_format($thisMonthRevenue, 0, ',', '.') . ' this month')
+            Stat::make(__('Total Pendapatan'), 'IDR ' . number_format($totalRevenue, 0, ',', '.'))
+                ->description('IDR ' . number_format($thisMonthRevenue, 0, ',', '.') . ' ' . __('bulan ini'))
                 ->descriptionIcon($thisMonthRevenue > 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-banknotes')
                 ->chart($revenueCounts)
                 ->color('success'),

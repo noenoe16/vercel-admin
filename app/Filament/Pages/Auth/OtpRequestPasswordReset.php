@@ -23,16 +23,16 @@ class OtpRequestPasswordReset extends BaseRequestPasswordReset
             Cache::put('password_reset_otp_' . $email, $otp, now()->addMinutes(15));
 
             Mail::send('emails.otp', [
-                'title' => 'Password Reset',
-                'description' => 'We received a request to reset your password. Please use the verification code below to proceed. This code is valid for 15 minutes.',
+                'title' => 'Atur Ulang Kata Sandi',
+                'description' => 'Kami menerima permintaan untuk mengatur ulang kata sandi Anda. Silakan gunakan kode verifikasi di bawah ini untuk melanjutkan. Kode ini berlaku selama 15 menit.',
                 'otp' => $otp,
             ], function ($message) use ($email) {
-                $message->to($email)->subject('Password Reset Code');
+                $message->to($email)->subject('Kode Atur Ulang Kata Sandi');
             });
         }
 
         Notification::make()
-            ->title('If an account exists, a password reset code has been sent.')
+            ->title(__('Jika akun tersedia, kode pengaturan ulang kata sandi telah dikirim.'))
             ->success()
             ->send();
 

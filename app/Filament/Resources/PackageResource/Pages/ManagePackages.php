@@ -16,17 +16,17 @@ class ManagePackages extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(PackageExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Paket')
+                ->label(__('Tambah Paket'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Paket Ditambahkan')
-                        ->body('Paket baru telah berhasil ditambahkan.')
+                        ->title(__('Paket Ditambahkan'))
+                        ->body(__('Paket baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

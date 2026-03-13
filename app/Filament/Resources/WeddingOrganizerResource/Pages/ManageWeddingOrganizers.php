@@ -16,17 +16,17 @@ class ManageWeddingOrganizers extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(WeddingOrganizerExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Studio')
+                ->label(__('Tambah Studio'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Studio Ditambahkan')
-                        ->body('Data studio rias baru telah berhasil ditambahkan.')
+                        ->title(__('Studio Ditambahkan'))
+                        ->body(__('Data studio rias baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

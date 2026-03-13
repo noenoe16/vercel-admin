@@ -16,17 +16,17 @@ class ManageVouchers extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(VoucherExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Voucher')
+                ->label(__('Tambah Voucher'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Voucher Ditambahkan')
-                        ->body('Voucher baru telah berhasil ditambahkan.')
+                        ->title(__('Voucher Ditambahkan'))
+                        ->body(__('Voucher baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

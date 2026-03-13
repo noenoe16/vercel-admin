@@ -6,6 +6,9 @@ use Filament\Enums\ThemeMode;
 use App\Livewire\PersonalInfoComponent;
 use App\Livewire\UsernameComponent;
 use App\Livewire\MobileSettingsComponent;
+use App\Livewire\EditPasswordComponent;
+use App\Livewire\BrowserSessionsComponent;
+use App\Livewire\DeleteAccountComponent;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,9 +30,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Jeddsaliba\FilamentMessages\FilamentMessagesPlugin;
-use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
-use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+
+use App\Filament\Pages\EditProfilePage;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Middleware\SuperAdmin;
 
@@ -60,37 +62,20 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             // ->spa()
             ->plugins([
-                FilamentEditProfilePlugin::make()
-                    ->setTitle('Profile')
-                    ->setNavigationLabel('Profile')
-                    ->shouldRegisterNavigation(false)
-                    ->setIcon('bxs-user-account')
-                    ->setSort(10)
-                    ->shouldShowEditProfileForm(false)
-                    ->shouldShowAvatarForm(
-                        value: true,
-                        directory: 'avatars',
-                        rules: 'mimes:jpeg,png|max:102400000'
-                    )
-                    ->customProfileComponents([
-                        PersonalInfoComponent::class,
-                        UsernameComponent::class,
-                        MobileSettingsComponent::class,
-                    ]),
-                FilamentMessagesPlugin::make(),
+                \App\Providers\Filament\LanguageSwitcherPlugin::make(),
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()
-                    ->label(fn (): string => Auth::user()?->full_name ?? 'Profile')
+                    ->label(fn (): string => Auth::user()?->full_name ?? __('Profil'))
                     ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('eos-account-circle')
                     ->visible(fn (): bool => Auth::check()),
             ])
             ->navigationGroups([
-                NavigationGroup::make()->label('User'),
-                NavigationGroup::make()->label('Blog & Media'),
-                NavigationGroup::make()->label('Studio'),
-                NavigationGroup::make()->label('Transactions'),
+                NavigationGroup::make()->label(__('Pengguna')),
+                NavigationGroup::make()->label(__('Blog & Media')),
+                NavigationGroup::make()->label(__('Studio')),
+                NavigationGroup::make()->label(__('Transaksi')),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -109,14 +94,16 @@ class AdminPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
+                \App\Http\Middleware\SetLocale::class,
+                // AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ], isPersistent: true)
+            ])
             ->authMiddleware([
                 Authenticate::class,
                 SuperAdmin::class,
-            ], isPersistent: true);
+            ]);
     }
 }

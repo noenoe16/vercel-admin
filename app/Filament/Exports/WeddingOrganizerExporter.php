@@ -15,7 +15,7 @@ class WeddingOrganizerExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('user_id'),
             ExportColumn::make('name'),
             ExportColumn::make('slug'),

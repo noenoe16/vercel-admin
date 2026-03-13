@@ -15,7 +15,7 @@ class PackageExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('wedding_organizer_id'),
             ExportColumn::make('category_id'),
             ExportColumn::make('name'),

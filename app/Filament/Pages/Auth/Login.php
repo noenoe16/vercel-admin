@@ -14,7 +14,7 @@ class Login extends BaseLogin
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('login')
-            ->label('Email address / Username')
+            ->label(__('Alamat Email / Username'))
             ->required()
             ->autocomplete()
             ->autofocus()
@@ -61,8 +61,8 @@ class Login extends BaseLogin
         if ($response) {
             // Show detailed success notification
             Notification::make()
-                ->title('Welcome back!')
-                ->body('You have been successfully logged in to the Weeding Organizer system at '.now()->format('H:i:s').'.')
+                ->title(__('Selamat Datang Kembali!'))
+                ->body('Anda telah berhasil masuk ke sistem Weeding Organizer pada '.now()->format('H:i:s').'.')
                 ->success()
                 ->duration(5000) // Show for 5 seconds
                 ->send();
@@ -75,8 +75,8 @@ class Login extends BaseLogin
     {
         // Show detailed error notification
         Notification::make()
-            ->title('Authentication Failed')
-            ->body('We couldn\'t verify your credentials. Please check your email/username and password, and try again. If you continue to have issues, contact your system administrator.')
+            ->title(__('Otentikasi Gagal'))
+            ->body(__('Kami tidak dapat memverifikasi kredensial Anda. Silakan periksa email/username dan kata sandi Anda, lalu coba lagi. Jika masalah berlanjut, hubungi administrator sistem.'))
             ->danger()
             ->duration(8000) // Show for 8 seconds
             ->send();

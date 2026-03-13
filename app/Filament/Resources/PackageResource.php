@@ -15,10 +15,6 @@ class PackageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationLabel = 'Paket Rias';
-
-    protected static ?string $navigationGroup = 'Studio';
-
     protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -26,6 +22,18 @@ class PackageResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'theme', 'color'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Studio');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Paket Rias');
     }
 
     public static function getNavigationBadge(): ?string
@@ -40,18 +48,18 @@ class PackageResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Paket Rias';
+        return __('Total Paket Rias');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Klasifikasi Layanan Rias')
-                    ->description('Atur layanan rias Anda berdasarkan kategori.')
+                Forms\Components\Section::make(__('Klasifikasi Layanan Rias'))
+                    ->description(__('Atur layanan rias Anda berdasarkan kategori.'))
                     ->schema([
                         Forms\Components\Select::make('wedding_organizer_id')
-                            ->label('Studio')
+                            ->label(__('Studio'))
                             ->relationship('weddingOrganizer', 'name')
                             ->default(fn () => \App\Models\WeddingOrganizer::first()?->id)
                             ->searchable()
@@ -59,17 +67,17 @@ class PackageResource extends Resource
                             ->required()
                             ->hidden(fn () => \App\Models\WeddingOrganizer::count() <= 1),
                         Forms\Components\Select::make('category_id')
-                            ->label('Kategori Rias')
+                            ->label(__('Kategori Rias'))
                             ->relationship('category', 'name')
                             ->searchable()
                             ->preload(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Identitas Paket')
-                    ->description('Penamaan utama dan detail deskriptif.')
+                Forms\Components\Section::make(__('Identitas Paket'))
+                    ->description(__('Penamaan utama dan detail deskriptif.'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Paket')
+                            ->label(__('Nama Paket'))
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
@@ -79,69 +87,69 @@ class PackageResource extends Resource
                             ->unique(ignorable: fn ($record) => $record)
                             ->maxLength(255),
                         Forms\Components\Textarea::make('description')
-                            ->label('Deskripsi')
+                            ->label(__('Deskripsi'))
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Harga & Fitur')
-                    ->description('Aspek finansial dan fungsional dari layanan.')
+                Forms\Components\Section::make(__('Harga & Fitur'))
+                    ->description(__('Aspek finansial dan fungsional dari layanan.'))
                     ->schema([
                         Forms\Components\TextInput::make('price')
-                            ->label('Harga Dasar')
+                            ->label(__('Harga Dasar'))
                             ->required()
                             ->numeric()
                             ->prefix('Rp'),
                         Forms\Components\TextInput::make('discount_price')
-                            ->label('Harga Diskon')
+                            ->label(__('Harga Diskon'))
                             ->numeric()
                             ->prefix('Rp')
                             ->validationAttribute('price')
                             ->rules(['nullable', 'numeric']),
                         Forms\Components\Toggle::make('is_featured')
-                            ->label('Paket Unggulan')
+                            ->label(__('Paket Unggulan'))
                             ->inline(false),
                         Forms\Components\TagsInput::make('features')
-                            ->label('Fitur')
-                            ->placeholder('Tambahkan fitur dan tekan enter')
+                            ->label(__('Fitur'))
+                            ->placeholder(__('Tambahkan fitur dan tekan enter'))
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Tema & Kapasitas')
-                    ->description('Estetika visual dan akomodasi tamu.')
+                Forms\Components\Section::make(__('Tema & Kapasitas'))
+                    ->description(__('Estetika visual dan akomodasi tamu.'))
                     ->schema([
                         Forms\Components\TextInput::make('theme')
-                            ->label('Tema')
+                            ->label(__('Tema'))
                             ->maxLength(255),
                         Forms\Components\ColorPicker::make('color')
-                            ->label('Warna'),
+                            ->label(__('Warna')),
                         Forms\Components\TextInput::make('min_capacity')
-                            ->label('Kapasitas Minimum')
+                            ->label(__('Kapasitas Minimum'))
                             ->numeric()
                             ->suffix('Pax'),
                         Forms\Components\TextInput::make('max_capacity')
-                            ->label('Kapasitas Maksimum')
+                            ->label(__('Kapasitas Maksimum'))
                             ->numeric()
                             ->suffix('Pax'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Media Paket')
-                    ->description('Upload foto utama dan video portfolio paket rias ini.')
+                Forms\Components\Section::make(__('Media Paket'))
+                    ->description(__('Upload foto utama dan video portfolio paket rias ini.'))
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('package_image')
-                            ->label('Foto Utama Paket')
+                            ->label(__('Foto Utama Paket'))
                             ->collection('package')
                             ->image()
                             ->imageEditor()
                             ->maxSize(102400000) // 100GB
                             ->columnSpanFull(),
                         Forms\Components\SpatieMediaLibraryFileUpload::make('videos')
-                            ->label('Video Portfolio')
+                            ->label(__('Video Portfolio'))
                             ->collection('videos')
                             ->multiple()
                             ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
                             ->maxSize(102400000) // 100GB
                             ->maxFiles(5)
-                            ->helperText('Upload video portfolio paket. Format: MP4, WebM, MOV. Maks 100GB per file.')
+                            ->helperText(__('Upload video portfolio paket. Format: MP4, WebM, MOV. Maks 100GB per file.'))
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -154,56 +162,56 @@ class PackageResource extends Resource
             ->mobileCardFeatured('price', 'rose')
             ->columns([
                 Tables\Columns\TextColumn::make('weddingOrganizer.name')
-                    ->label('Organizer')
+                    ->label(__('Studio'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Kategori')
+                    ->label(__('Kategori'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Paket')
+                    ->label(__('Nama Paket'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Deskripsi')
+                    ->label(__('Deskripsi'))
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Harga Dasar')
+                    ->label(__('Harga Dasar'))
                     ->money('IDR')
                     ->sortable()
                     ->alignment('right'),
                 Tables\Columns\TextColumn::make('theme')
-                    ->label('Tema')
+                    ->label(__('Tema'))
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('color')
-                    ->label('Warna')
+                    ->label(__('Warna'))
                     ->searchable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('min_capacity')
-                    ->label('Min Pax')
+                    ->label(__('Min Pax'))
                     ->numeric()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('max_capacity')
-                    ->label('Max Pax')
+                    ->label(__('Max Pax'))
                     ->numeric()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
+                    ->label(__('Dibuat Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Diperbarui Pada')
+                    ->label(__('Diperbarui Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -224,8 +232,8 @@ class PackageResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Paket diperbarui')
-                            ->body('Paket telah berhasil diperbarui.')
+                            ->title(__('Paket diperbarui'))
+                            ->body(__('Paket telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -234,8 +242,8 @@ class PackageResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Paket dihapus')
-                            ->body('Paket telah berhasil dihapus.')
+                            ->title(__('Paket dihapus'))
+                            ->body(__('Paket telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

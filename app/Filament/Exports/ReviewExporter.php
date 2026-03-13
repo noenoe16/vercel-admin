@@ -15,7 +15,7 @@ class ReviewExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('user_id'),
             ExportColumn::make('wedding_organizer_id'),
             ExportColumn::make('package_id'),

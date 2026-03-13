@@ -6,6 +6,7 @@ use App\Filament\Resources\ReviewResource\Pages;
 use App\Models\Review;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,10 +18,6 @@ class ReviewResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
 
-    protected static ?string $navigationLabel = 'Ulasan Pelanggan';
-
-    protected static ?string $navigationGroup = 'Blog & Media';
-
     protected static ?int $navigationSort = 6;
 
     protected static ?string $recordTitleAttribute = 'comment';
@@ -28,6 +25,18 @@ class ReviewResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['comment'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Blog & Media');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Ulasan Pelanggan');
     }
 
     public static function getNavigationBadge(): ?string
@@ -42,50 +51,50 @@ class ReviewResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Ulasan Pelanggan';
+        return __('Total Ulasan Pelanggan');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Review Context')
-                    ->description('Participants and services involved in this review.')
+                Forms\Components\Section::make(__('Konteks Ulasan'))
+                    ->description(__('Peserta dan layanan yang terlibat dalam ulasan ini.'))
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('Reviewer')
+                            ->label(__('Pengulas'))
                             ->options(User::all()->pluck('name', 'id'))
                             ->searchable()
                             ->required(),
                         Forms\Components\Select::make('wedding_organizer_id')
-                            ->label('Target Studio')
+                            ->label(__('Studio Target'))
                             ->relationship('weddingOrganizer', 'name')
                             ->searchable()
                             ->preload()
                             ->required(),
                         Forms\Components\Select::make('package_id')
-                            ->label('Target Package')
+                            ->label(__('Paket Target'))
                             ->relationship('package', 'name')
                             ->searchable()
                             ->preload(),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Rating & Feedback')
-                    ->description('User evaluation and detailed comment.')
+                Forms\Components\Section::make(__('Rating & Umpan Balik'))
+                    ->description(__('Evaluasi pengguna dan komentar detail.'))
                     ->schema([
                         Forms\Components\Select::make('rating')
-                            ->label('Rating Score')
+                            ->label(__('Skor Rating'))
                             ->searchable()
                             ->options([
-                                1 => '1 Star',
-                                2 => '2 Stars',
-                                3 => '3 Stars',
-                                4 => '4 Stars',
-                                5 => '5 Stars',
+                                1 => __('1 Bintang'),
+                                2 => __('2 Bintang'),
+                                3 => __('3 Bintang'),
+                                4 => __('4 Bintang'),
+                                5 => __('5 Bintang'),
                             ])
                             ->required(),
                         Forms\Components\Textarea::make('comment')
-                            ->label('Reviewer Comment')
+                            ->label(__('Komentar Pengulas'))
                             ->columnSpanFull(),
                     ])->columns(1),
             ]);
@@ -96,34 +105,34 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Reviewer')
+                    ->label(__('Pengulas'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('weddingOrganizer.name')
-                    ->label('Makeup Studio')
+                    ->label(__('Studio Makeup'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('package.name')
-                    ->label('Package')
+                    ->label(__('Paket'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('rating')
-                    ->label('Rating')
+                    ->label(__('Rating'))
                     ->numeric()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('comment')
-                    ->label('Review Comment')
+                    ->label(__('Komentar Ulasan'))
                     ->searchable()
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date')
+                    ->label(__('Tanggal'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('Terakhir Diperbarui'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -144,8 +153,8 @@ class ReviewResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Review updated')
-                            ->body('The review has been updated successfully.')
+                            ->title(__('Ulasan diperbarui'))
+                            ->body(__('Ulasan telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -154,8 +163,8 @@ class ReviewResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Review deleted')
-                            ->body('The review has been deleted successfully.')
+                            ->title(__('Ulasan dihapus'))
+                            ->body(__('Ulasan telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

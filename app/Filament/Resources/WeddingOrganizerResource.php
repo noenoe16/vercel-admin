@@ -15,10 +15,6 @@ class WeddingOrganizerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static ?string $navigationLabel = 'Profil Studio';
-
-    protected static ?string $navigationGroup = 'Studio';
-
     protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -26,6 +22,18 @@ class WeddingOrganizerResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Studio');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Profil Studio');
     }
 
     public static function getNavigationBadge(): ?string
@@ -40,18 +48,18 @@ class WeddingOrganizerResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Profil WO Aktif';
+        return __('Profil WO Aktif');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi Studio')
-                    ->description('Detail studio rias pengantin dan merek.')
+                Forms\Components\Section::make(__('Informasi Studio'))
+                    ->description(__('Detail studio rias pengantin dan merek.'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Studio')
+                            ->label(__('Nama Studio'))
                             ->required()
                             ->maxLength(255)
                             ->default('Devi Make Up & Wedding')
@@ -63,23 +71,23 @@ class WeddingOrganizerResource extends Resource
                             ->maxLength(255)
                             ->default('devi-makeup-wedding'),
                         Forms\Components\SpatieMediaLibraryFileUpload::make('gallery')
-                            ->label('Galeri')
+                            ->label(__('Galeri'))
                             ->collection('gallery')
                             ->multiple()
                             ->reorderable()
                             ->image()
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('description')
-                            ->label('Deskripsi Studio')
-                            ->default('Professional bridal makeup artist specializing in traditional and modern wedding looks.')
+                            ->label(__('Deskripsi Studio'))
+                            ->default('Artis rias pengantin profesional yang mengkhususkan diri dalam gaya pernikahan tradisional dan modern.')
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Kontak & Lokasi')
-                    ->description('Informasi kontak studio dan detail lokasi.')
+                Forms\Components\Section::make(__('Kontak & Lokasi'))
+                    ->description(__('Informasi kontak studio dan detail lokasi.'))
                     ->schema([
                         Forms\Components\TextInput::make('address')
-                            ->label('Alamat Studio')
+                            ->label(__('Alamat Studio'))
                             ->maxLength(255)
                             ->default('Jakarta Selatan, DKI Jakarta'),
                         Forms\Components\Group::make([
@@ -89,30 +97,30 @@ class WeddingOrganizerResource extends Resource
                                 ->maxLength(255),
                         ])->columns(2),
                         Forms\Components\TextInput::make('rating')
-                            ->label('Rating')
+                            ->label(__('Rating'))
                             ->required()
                             ->numeric()
                             ->default(0.00)
                             ->minValue(0)
                             ->maxValue(5),
                         Forms\Components\Toggle::make('is_verified')
-                            ->label('Studio Terverifikasi')
+                            ->label(__('Studio Terverifikasi'))
                             ->required()
                             ->default(true)
                             ->inline(false),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Video Profil Studio')
-                    ->description('Upload video perkenalan studio untuk ditampilkan di halaman profil.')
+                Forms\Components\Section::make(__('Video Profil Studio'))
+                    ->description(__('Upload video perkenalan studio untuk ditampilkan di halaman profil.'))
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('videos')
-                            ->label('Video Profil Studio')
+                            ->label(__('Video Profil Studio'))
                             ->collection('videos')
                             ->multiple()
                             ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
                             ->maxSize(102400000) // 100GB
                             ->maxFiles(3)
-                            ->helperText('Upload video profil/showreel studio. Format: MP4, WebM, MOV. Maks 100GB per file.')
+                            ->helperText(__('Upload video profil/showreel studio. Format: MP4, WebM, MOV. Maks 100GB per file.'))
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -124,43 +132,43 @@ class WeddingOrganizerResource extends Resource
             ->mobileCards()
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Studio')
+                    ->label(__('Nama Studio'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('address')
-                    ->label('Alamat')
+                    ->label(__('Alamat'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('latitude')
-                    ->label('Latitude')
+                    ->label(__('Latitude'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('longitude')
-                    ->label('Longitude')
+                    ->label(__('Longitude'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('rating')
-                    ->label('Rating')
+                    ->label(__('Rating'))
                     ->numeric()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\IconColumn::make('is_verified')
-                    ->label('Terverifikasi')
+                    ->label(__('Terverifikasi'))
                     ->boolean()
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Terdaftar Pada')
+                    ->label(__('Terdaftar Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Diperbarui Pada')
+                    ->label(__('Diperbarui Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -181,8 +189,8 @@ class WeddingOrganizerResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Studio Rias Pengantin diperbarui')
-                            ->body('Studio rias pengantin telah berhasil diperbarui.')
+                            ->title(__('Studio Rias Pengantin diperbarui'))
+                            ->body(__('Studio rias pengantin telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -191,8 +199,8 @@ class WeddingOrganizerResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Studio Rias Pengantin dihapus')
-                            ->body('Studio rias pengantin telah berhasil dihapus.')
+                            ->title(__('Studio Rias Pengantin dihapus'))
+                            ->body(__('Studio rias pengantin telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

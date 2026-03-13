@@ -14,11 +14,16 @@ class MobileSettingsComponent extends Component implements HasForms
     use HasSort;
     use InteractsWithForms;
 
-    protected static int $sort = 4;
+    protected static int $sort = 25;
+
+    public static function getSort(): int
+    {
+        return static::$sort;
+    }
 
     public function openSettings(): void
     {
-        System::openAppSettings();
+        System::appSettings();
     }
 
     public function render(): View

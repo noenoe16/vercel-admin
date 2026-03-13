@@ -4,7 +4,7 @@
 
         <div class="flex justify-end mt-4">
             <x-filament::button type="submit">
-                {{ __('filament-edit-profile::default.save') }}
+                {{ __('Simpan Perubahan') }}
             </x-filament::button>
         </div>
     </form>

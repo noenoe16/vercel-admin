@@ -7,6 +7,9 @@ use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 $app = Application::configure(basePath: dirname(__DIR__))
+    ->withProviders([
+        App\Providers\AutoTranslationServiceProvider::class,
+    ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
@@ -17,6 +20,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(replace: [
             ValidateCsrfToken::class => VerifyCsrfToken::class,
+        ]);
+
+        $middleware->alias([
+            'set_locale' => \App\Http\Middleware\SetLocale::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

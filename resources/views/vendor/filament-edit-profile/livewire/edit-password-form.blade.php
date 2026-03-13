@@ -4,7 +4,7 @@
     <div class="fi-form-actions">
         <div class="flex flex-row-reverse flex-wrap items-center gap-3 fi-ac">
             <x-filament::button type="submit">
-                {{ __('filament-edit-profile::default.save') }}
+                Simpan Perubahan
             </x-filament::button>
         </div>
     </div>

@@ -16,10 +16,6 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationLabel = 'Kategori Layanan';
-
-    protected static ?string $navigationGroup = 'Studio';
-
     protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -27,6 +23,18 @@ class CategoryResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'slug'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Studio');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Kategori Layanan');
     }
 
     public static function getNavigationBadge(): ?string
@@ -41,30 +49,33 @@ class CategoryResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Kategori Layanan';
+        return __('Total Kategori Layanan');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Category Details')
-                    ->description('Classify your wedding services and packages.')
+                Forms\Components\Section::make(__('Detail Kategori'))
+                    ->description(__('Klasifikasikan layanan pernikahan dan paket Anda.'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('Nama'))
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn (Forms\Set $set, ?string $state) => $set('slug', str($state)->slug())),
                         Forms\Components\TextInput::make('slug')
+                            ->label(__('Slug'))
                             ->required()
                             ->unique(ignorable: fn ($record) => $record)
                             ->maxLength(255),
                         Forms\Components\TextInput::make('icon')
-                            ->label('Icon Class/Name')
+                            ->label(__('Ikon (Class/Name)'))
                             ->placeholder('heroicon-o-tag')
                             ->maxLength(255),
                         Forms\Components\Textarea::make('description')
+                            ->label(__('Deskripsi'))
                             ->columnSpanFull(),
                     ])->columns(2),
             ]);
@@ -77,23 +88,23 @@ class CategoryResource extends Resource
             ->mobileCardFeatured('name', 'emerald')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Category Name')
+                    ->label(__('Nama Kategori'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('URL Slug')
+                    ->label(__('Slug URL'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('icon')
-                    ->label('Icon')
+                    ->label(__('Ikon'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created On')
+                    ->label(__('Dibuat Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('Terakhir Diperbarui'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -114,8 +125,8 @@ class CategoryResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Category updated')
-                            ->body('The category has been updated successfully.')
+                            ->title(__('Kategori diperbarui'))
+                            ->body(__('Kategori telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -124,8 +135,8 @@ class CategoryResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Category deleted')
-                            ->body('The category has been deleted successfully.')
+                            ->title(__('Kategori dihapus'))
+                            ->body(__('Kategori telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

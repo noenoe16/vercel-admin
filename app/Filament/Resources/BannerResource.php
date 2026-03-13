@@ -16,10 +16,6 @@ class BannerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationLabel = 'Banner Promo';
-
-    protected static ?string $navigationGroup = 'Blog & Media';
-
     protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'title';
@@ -27,6 +23,18 @@ class BannerResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['title'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Blog & Media');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Banner Promo');
     }
 
     public static function getNavigationBadge(): ?string
@@ -41,38 +49,39 @@ class BannerResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Banner Promo';
+        return __('Total Banner Promo');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Banner Content')
-                    ->description('Details of the promotion or highlight banner.')
+                Forms\Components\Section::make(__('Konten Banner'))
+                    ->description(__('Detail promosi atau banner utama.'))
                     ->schema([
                         Forms\Components\TextInput::make('title')
-                            ->placeholder('Enter banner title')
+                            ->label(__('Judul'))
+                            ->placeholder(__('Masukkan judul banner'))
                             ->maxLength(255),
                         Forms\Components\FileUpload::make('image_url')
-                            ->label('Banner Image')
+                            ->label(__('Gambar Banner'))
                             ->image()
                             ->directory('banners')
                             ->required(),
                         Forms\Components\TextInput::make('link_url')
-                            ->label('Redirect URL')
-                            ->placeholder('https://example.com')
+                            ->label(__('URL Pengalihan'))
+                            ->placeholder(__('https://example.com'))
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Configuration')
-                    ->description('Banner visibility and display order settings.')
+                Forms\Components\Section::make(__('Konfigurasi'))
+                    ->description(__('Pengaturan visibilitas banner dan urutan tampilan.'))
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
-                            ->label('Active Status')
+                            ->label(__('Status Aktif'))
                             ->required(),
                         Forms\Components\TextInput::make('sort_order')
-                            ->label('Display Priority')
+                            ->label(__('Prioritas Tampilan'))
                             ->required()
                             ->numeric()
                             ->default(0),
@@ -86,34 +95,34 @@ class BannerResource extends Resource
             ->mobileCards()
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Banner Title')
+                    ->label(__('Judul Banner'))
                     ->searchable()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\ImageColumn::make('image_url')
-                    ->label('Image Preview')
+                    ->label(__('Pratinjau Gambar'))
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('link_url')
-                    ->label('Redirect Link')
+                    ->label(__('Link Pengalihan'))
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->alignment('center')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Priority')
+                    ->label(__('Prioritas'))
                     ->numeric()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('Dibuat Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('Terakhir Diperbarui'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -134,8 +143,8 @@ class BannerResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Banner updated')
-                            ->body('The banner has been updated successfully.')
+                            ->title(__('Banner diperbarui'))
+                            ->body(__('Banner telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -144,8 +153,8 @@ class BannerResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Banner deleted')
-                            ->body('The banner has been deleted successfully.')
+                            ->title(__('Banner dihapus'))
+                            ->body(__('Banner telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

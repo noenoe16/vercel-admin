@@ -17,11 +17,19 @@ class WithdrawalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationLabel = 'Tarik Saldo';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 4;
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Tarik Saldo');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -30,62 +38,69 @@ class WithdrawalResource extends Resource
 
     public static function getNavigationBadgeColor(): ?string
     {
-        return 'danger';
+        return 'primary';
     }
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Withdrawal Requests';
+        return __('Total Permintaan Penarikan');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi Penarikan')
+                Forms\Components\Section::make(__('Informasi Penarikan'))
                     ->schema([
                         Forms\Components\Select::make('user_id')
+                            ->label(__('Pengguna'))
                             ->relationship('user', 'name')
                             ->searchable()
                             ->preload()
                             ->required(),
                         Forms\Components\TextInput::make('reference_number')
+                            ->label(__('Nomor Referensi'))
                             ->default('WD-'.strtoupper(Str::random(10)))
                             ->required()
                             ->readOnly(),
                         Forms\Components\TextInput::make('amount')
+                            ->label(__('Jumlah'))
                             ->required()
                             ->numeric()
                             ->prefix('Rp')
                             ->readOnly(fn ($record) => $record !== null),
                         Forms\Components\Select::make('status')
+                            ->label(__('Status'))
                             ->options([
-                                'pending' => 'Pending',
-                                'approved' => 'Approved',
-                                'rejected' => 'Rejected',
-                                'completed' => 'Completed',
+                                'pending' => __('Tertunda'),
+                                'approved' => __('Disetujui'),
+                                'rejected' => __('Ditolak'),
+                                'completed' => __('Selesai'),
                             ])
                             ->required()
                             ->default('pending'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Tujuan Transfer')
+                Forms\Components\Section::make(__('Tujuan Transfer'))
                     ->schema([
                         Forms\Components\TextInput::make('bank_name')
+                            ->label(__('Nama Bank'))
                             ->required(),
                         Forms\Components\TextInput::make('account_number')
+                            ->label(__('Nomor Rekening'))
                             ->required(),
                         Forms\Components\TextInput::make('account_holder')
+                            ->label(__('Nama Pemilik Rekening'))
                             ->required(),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Catatan')
+                Forms\Components\Section::make(__('Catatan'))
                     ->schema([
                         Forms\Components\Textarea::make('notes')
-                            ->label('Catatan User')
+                            ->label(__('Catatan User'))
                             ->readOnly(),
                         Forms\Components\Textarea::make('admin_notes')
-                            ->label('Catatan Admin'),
+                            ->label(__('Catatan Admin')),
                     ])->columns(2),
             ]);
     }
@@ -95,23 +110,23 @@ class WithdrawalResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Pelanggan')
+                    ->label(__('Pelanggan'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('reference_number')
-                    ->label('Ref')
+                    ->label(__('Ref'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->label('Jumlah')
+                    ->label(__('Jumlah'))
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('bank_name')
-                    ->label('Bank')
+                    ->label(__('Bank'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('account_number')
-                    ->label('Rekening'),
+                    ->label(__('Rekening')),
                 Tables\Columns\TextColumn::make('account_holder')
-                    ->label('Pemilik Rekening')
+                    ->label(__('Pemilik Rekening'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -123,7 +138,7 @@ class WithdrawalResource extends Resource
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tgl Pengajuan')
+                    ->label(__('Tgl Pengajuan'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -134,16 +149,17 @@ class WithdrawalResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'completed' => 'Completed',
-                        'rejected' => 'Rejected',
+                        'pending' => __('Tertunda'),
+                        'approved' => __('Disetujui'),
+                        'completed' => __('Selesai'),
+                        'rejected' => __('Ditolak'),
                     ]),
             ])
             ->actions([
                 Tables\Actions\Action::make('approve')
-                    ->label('Setujui')
+                    ->label(__('Setujui'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
@@ -152,7 +168,7 @@ class WithdrawalResource extends Resource
                         $record->update(['status' => 'approved']);
                     }),
                 Tables\Actions\Action::make('complete')
-                    ->label('Selesai')
+                    ->label(__('Selesai'))
                     ->icon('heroicon-o-check-badge')
                     ->color('success')
                     ->requiresConfirmation()
@@ -161,14 +177,14 @@ class WithdrawalResource extends Resource
                         $record->update(['status' => 'completed']);
                     }),
                 Tables\Actions\Action::make('reject')
-                    ->label('Tolak')
+                    ->label(__('Tolak'))
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
                     ->visible(fn (Withdrawal $record) => $record->status === 'pending')
                     ->form([
                         Forms\Components\Textarea::make('admin_notes')
-                            ->label('Alasan Penolakan')
+                            ->label(__('Alasan Penolakan'))
                             ->required(),
                     ])
                     ->action(function (Withdrawal $record, array $data): void {
@@ -190,8 +206,8 @@ class WithdrawalResource extends Resource
                     ->successNotification(
                         \Filament\Notifications\Notification::make()
                             ->success()
-                            ->title('Withdrawal updated')
-                            ->body('The withdrawal has been updated successfully.')
+                            ->title(__('Penarikan diperbarui'))
+                            ->body(__('Penarikan telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -200,8 +216,8 @@ class WithdrawalResource extends Resource
                     ->successNotification(
                         \Filament\Notifications\Notification::make()
                             ->success()
-                            ->title('Withdrawal deleted')
-                            ->body('The withdrawal has been deleted successfully.')
+                            ->title(__('Penarikan dihapus'))
+                            ->body(__('Penarikan telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

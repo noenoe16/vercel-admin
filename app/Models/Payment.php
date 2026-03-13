@@ -85,8 +85,8 @@ class Payment extends Model
     public static function paymentMethodLabels(): array
     {
         return [
-            'bank_transfer' => 'Bank Transfer',
-            'credit_card' => 'Credit Card',
+            'bank_transfer' => 'Transfer Bank',
+            'credit_card' => 'Kartu Kredit',
             'gopay' => 'GoPay',
             'ovo' => 'OVO',
             'dana' => 'DANA',
@@ -103,13 +103,13 @@ class Payment extends Model
     public static function statusLabels(): array
     {
         return [
-            'pending' => 'Pending',
-            'processing' => 'Processing',
-            'success' => 'Success',
-            'failed' => 'Failed',
-            'expired' => 'Expired',
-            'cancelled' => 'Cancelled',
-            'refunded' => 'Refunded',
+            'pending' => 'Tertunda',
+            'processing' => 'Diproses',
+            'success' => 'Berhasil',
+            'failed' => 'Gagal',
+            'expired' => 'Kadaluarsa',
+            'cancelled' => 'Dibatalkan',
+            'refunded' => 'Dikembalikan',
         ];
     }
 

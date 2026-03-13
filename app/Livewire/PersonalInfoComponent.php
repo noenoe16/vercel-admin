@@ -13,17 +13,22 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Joaopaulolndev\FilamentEditProfile\Concerns\HasSort;
+
 use Livewire\Component;
 
 class PersonalInfoComponent extends Component implements HasForms
 {
-    use HasSort;
+
     use InteractsWithForms;
 
     public ?array $data = [];
 
     protected static int $sort = 1;
+
+    public static function getSort(): int
+    {
+        return static::$sort;
+    }
 
     public function mount(): void
     {
@@ -46,38 +51,39 @@ class PersonalInfoComponent extends Component implements HasForms
         return $form
             ->statePath('data')
             ->schema([
-                Section::make('Profile Information')
+                Section::make(__('Informasi Profil'))
                     ->aside()
-                    ->description('Update your account profile information and email address.')
+                    ->icon('heroicon-o-user-circle')
+                    ->description(__('Perbarui informasi profil dan alamat email akun Anda.'))
                     ->schema([
                         FileUpload::make('avatar_url')
-                            ->label('Photo')
+                            ->label(__('Foto'))
                             ->image()
                             ->avatar()
                             ->directory('avatars')
                             ->columnSpanFull(),
                         TextInput::make('full_name')
-                            ->label('Full Name')
+                            ->label(__('Nama Lengkap'))
                             ->required()
                             ->maxLength(255),
                         TextInput::make('first_name')
-                            ->label('First Name')
+                            ->label(__('Nama Depan'))
                             ->maxLength(255),
                         TextInput::make('last_name')
-                            ->label('Last Name')
+                            ->label(__('Nama Belakang'))
                             ->maxLength(255),
                         TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('Email'))
                             ->email()
                             ->required()
                             ->maxLength(255)
                             ->unique(User::class, 'email', ignorable: Auth::user()),
                         TextInput::make('phone')
-                            ->label('Phone Number')
+                            ->label(__('Nomor Telepon'))
                             ->tel()
                             ->maxLength(255),
                         Textarea::make('address')
-                            ->label('Address')
+                            ->label(__('Alamat'))
                             ->rows(3)
                             ->maxLength(65535)
                             ->columnSpanFull(),
@@ -96,14 +102,14 @@ class PersonalInfoComponent extends Component implements HasForms
             $user->update($data);
 
             Notification::make()
-                ->title('Profile updated successfully!')
+                ->title(__('Profil berhasil diperbarui!'))
                 ->success()
                 ->send();
 
             $this->dispatch('profile-updated');
         } catch (\Exception $e) {
             Notification::make()
-                ->title('Failed to update profile')
+                ->title(__('Gagal memperbarui profil'))
                 ->danger()
                 ->send();
         }

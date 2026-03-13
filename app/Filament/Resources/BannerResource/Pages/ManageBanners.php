@@ -16,17 +16,17 @@ class ManageBanners extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(BannerExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Banner')
+                ->label(__('Tambah Banner'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Banner Ditambahkan')
-                        ->body('Banner baru telah berhasil ditambahkan.')
+                        ->title(__('Banner Ditambahkan'))
+                        ->body(__('Banner baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

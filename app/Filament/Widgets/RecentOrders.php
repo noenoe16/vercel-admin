@@ -10,8 +10,13 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class RecentOrders extends BaseWidget
 {
     protected static ?int $sort = 4;
-    
+    protected int | string | array $columnSpan = 'full';
 
+    public function getTableHeading(): string
+    {
+        return __('Pesanan Terbaru');
+    }
+    
     public function table(Table $table): Table
     {
         return $table
@@ -20,17 +25,20 @@ class RecentOrders extends BaseWidget
             )
             ->columns([
                 Tables\Columns\TextColumn::make('order_number')
+                    ->label(__('No. Pesanan'))
                     ->searchable()
                     ->weight('bold'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Customer'),
+                    ->label(__('Pelanggan')),
                 Tables\Columns\TextColumn::make('package.name')
-                    ->label('Package')
+                    ->label(__('Paket Rias'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_price')
+                    ->label(__('Total Harga'))
                     ->money('IDR')
                     ->alignEnd(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
@@ -41,7 +49,7 @@ class RecentOrders extends BaseWidget
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label('Date')
+                    ->label(__('Tanggal Terdaftar'))
                     ->toggleable(isToggledHiddenByDefault: true),
             ]);
     }

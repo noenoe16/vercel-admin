@@ -15,7 +15,7 @@ class UserExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('full_name'),
             ExportColumn::make('username'),
             ExportColumn::make('email'),

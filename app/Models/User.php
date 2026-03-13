@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
-use Jeddsaliba\FilamentMessages\Models\Traits\HasFilamentMessages;
+use App\Models\Traits\HasFilamentMessages;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Order;
@@ -113,6 +113,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
     use HasFilamentMessages;
     use HasRoles;
     use Notifiable;
+    use \App\Traits\InteractsWithLanguages;
 
     public function getFilamentName(): string
     {

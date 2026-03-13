@@ -7,12 +7,16 @@ use Filament\Widgets\ChartWidget;
 
 class RevenueChart extends ChartWidget
 {
-    protected static ?string $heading = 'Revenue Trend';
-
     protected static ?string $pollingInterval = null; // Disable mobile polling to avoid method-not-found crashes
 
     protected static ?int $sort = 2;
 
+
+    
+    public function getHeading(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return __('Tren Pendapatan');
+    }
 
     protected function getData(): array
     {
@@ -33,7 +37,7 @@ class RevenueChart extends ChartWidget
 
         for ($i = 5; $i >= 0; $i--) {
             $month = now()->subMonths($i)->format('m');
-            $labels[] = now()->subMonths($i)->format('M');
+            $labels[] = ucfirst(now()->subMonths($i)->translatedFormat('M'));
 
             // Handle key mismatch (some DBs return '01', some return 1)
             $val = $data[$month] ?? $data[(int) $month] ?? 0;
@@ -43,7 +47,7 @@ class RevenueChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Revenue (IDR)',
+                    'label' => __('Pendapatan (IDR)'),
                     'data' => $revenue,
                     'backgroundColor' => 'rgba(233, 30, 99, 0.1)',
                     'borderColor' => '#E91E63',

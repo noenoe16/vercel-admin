@@ -15,9 +15,9 @@ class WithdrawalExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('user.name')
-                ->label('User'),
+                ->label(__('User')),
             ExportColumn::make('reference_number'),
             ExportColumn::make('amount'),
             ExportColumn::make('bank_name'),

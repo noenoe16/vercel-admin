@@ -17,17 +17,17 @@ class ManagePaymentMethods extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(PaymentMethodExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Metode')
+                ->label(__('Tambah Metode'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Metode Ditambahkan')
-                        ->body('Metode pembayaran baru telah berhasil ditambahkan.')
+                        ->title(__('Metode Ditambahkan'))
+                        ->body(__('Metode pembayaran baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

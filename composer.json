@@ -51,6 +51,7 @@
         "spatie/yaml-front-matter": "^2.0",
         "srwiez/nativephp-mobile-screen": "^1.0",
         "stechstudio/filament-impersonate": "^3.3",
+        "stichoza/google-translate-php": "^5.3",
         "ysfkaya/filament-phone-input": "^3.2"
     },
     "require-dev": {
@@ -123,7 +124,9 @@
                 "spatie/laravel-backup",
                 "laravel/boost",
                 "laravel/pail",
-                "nativephp/laravel"
+                "nativephp/laravel",
+                "jeddsaliba/filament-messages",
+                "joaopaulolndev/filament-edit-profile"
             ]
         }
     },

@@ -14,11 +14,19 @@ class WishlistResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-heart';
 
-    protected static ?string $navigationLabel = 'Keinginan Pelanggan';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 7;
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Keinginan Pelanggan');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -32,24 +40,24 @@ class WishlistResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Keinginan Pelanggan';
+        return __('Total Keinginan Pelanggan');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Wishlist Detail')
-                    ->description('Informasi pelanggan dan paket rias yang diinginkan.')
+                Forms\Components\Section::make(__('Detail Wishlist'))
+                    ->description(__('Informasi pelanggan dan paket rias yang diinginkan.'))
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('Pelanggan')
+                            ->label(__('Pelanggan'))
                             ->relationship('user', 'full_name')
                             ->searchable()
                             ->preload()
                             ->required(),
                         Forms\Components\Select::make('package_id')
-                            ->label('Paket Rias')
+                            ->label(__('Paket Rias'))
                             ->relationship('package', 'name')
                             ->searchable()
                             ->preload()
@@ -63,20 +71,20 @@ class WishlistResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.full_name')
-                    ->label('Pelanggan')
+                    ->label(__('Pelanggan'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('package.name')
-                    ->label('Paket Rias')
+                    ->label(__('Paket Rias'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ditambahkan Pada')
+                    ->label(__('Ditambahkan Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Terakhir Diubah')
+                    ->label(__('Terakhir Diubah'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -97,8 +105,8 @@ class WishlistResource extends Resource
                     ->successNotification(
                         \Filament\Notifications\Notification::make()
                             ->success()
-                            ->title('Wishlist diperbarui')
-                            ->body('Data keinginan pelanggan berhasil diubah.')
+                            ->title(__('Wishlist diperbarui'))
+                            ->body(__('Data keinginan pelanggan berhasil diubah.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -107,8 +115,8 @@ class WishlistResource extends Resource
                     ->successNotification(
                         \Filament\Notifications\Notification::make()
                             ->success()
-                            ->title('Wishlist dihapus')
-                            ->body('Data keinginan pelanggan berhasil dihapus.')
+                            ->title(__('Wishlist dihapus'))
+                            ->body(__('Data keinginan pelanggan berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

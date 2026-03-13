@@ -15,7 +15,7 @@ class PaymentExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('order.id'),
             ExportColumn::make('payment_number'),
             ExportColumn::make('payment_method'),

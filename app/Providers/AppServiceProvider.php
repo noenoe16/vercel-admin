@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\ServiceProvider;
 use Native\Mobile\Network;
 use Native\Mobile\System;
-use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -89,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         // ═══════════════════════════════════════════════════════════
         // PERSISTENT SESSION CONFIGURATION (WEB & MOBILE)
         // ═══════════════════════════════════════════════════════════
@@ -116,10 +119,12 @@ class AppServiceProvider extends ServiceProvider
 
         \Spatie\MediaLibrary\MediaCollections\Models\Media::observe(\App\Observers\MediaObserver::class);
 
-        \Livewire\Livewire::component('edit_profile_form', \Joaopaulolndev\FilamentEditProfile\Livewire\EditProfileForm::class);
-        \Livewire\Livewire::component('edit_password_form', \Joaopaulolndev\FilamentEditProfile\Livewire\EditPasswordForm::class);
-        \Livewire\Livewire::component('delete_account_form', \Joaopaulolndev\FilamentEditProfile\Livewire\DeleteAccountForm::class);
-        \Livewire\Livewire::component('browser_sessions_form', \Joaopaulolndev\FilamentEditProfile\Livewire\BrowserSessionsForm::class);
+        \Livewire\Livewire::component('edit_password_form', \App\Livewire\EditPasswordComponent::class);
+        \Livewire\Livewire::component('delete_account_form', \App\Livewire\DeleteAccountComponent::class);
+        \Livewire\Livewire::component('browser_sessions_form', \App\Livewire\BrowserSessionsComponent::class);
+        \Livewire\Livewire::component('fm-inbox', \App\Livewire\Messages\Inbox::class);
+        \Livewire\Livewire::component('fm-messages', \App\Livewire\Messages\Messages::class);
+        \Livewire\Livewire::component('fm-search', \App\Livewire\Messages\Search::class);
         \Livewire\Livewire::component('username-component', \App\Livewire\UsernameComponent::class);
 
         // 📱 GLOBAL MOBILE AREA OPTIMIZATION

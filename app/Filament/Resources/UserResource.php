@@ -18,9 +18,28 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'User';
-
     protected static ?int $navigationSort = 1;
+
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Pengguna');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Pengguna');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Pengguna');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Pengguna');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -34,35 +53,35 @@ class UserResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Pengguna Terdaftar';
+        return __('Total Pengguna Terdaftar');
     }
 
         public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('User Details')
+                Forms\Components\Section::make(__('Detail Pengguna'))
                     ->schema([
                         Forms\Components\FileUpload::make('avatar_url')
-                            ->label('Avatar Image')
+                            ->label(__('Avatar'))
                             ->image()
                             ->avatar(),
                         Forms\Components\TextInput::make('full_name')
-                            ->label('Full Name')
+                            ->label(__('Nama Lengkap'))
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('email')
-                            ->label('Email Address')
+                            ->label(__('Alamat Email'))
                             ->email()
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\DateTimePicker::make('email_verified_at')
-                            ->label('Email Verified At'),
+                            ->label(__('Email Diverifikasi Pada')),
 
                         Forms\Components\TextInput::make('password')
-                            ->label('Password')
+                            ->label(__('Kata Sandi'))
                             ->password()
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
@@ -70,28 +89,28 @@ class UserResource extends Resource
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('first_name')
-                            ->label('First Name')
+                            ->label(__('Nama Depan'))
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('last_name')
-                            ->label('Last Name')
+                            ->label(__('Nama Belakang'))
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('username')
-                            ->label('Username')
+                            ->label(__('Username'))
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('phone')
-                            ->label('Phone Number')
+                            ->label(__('Nomor Telepon'))
                             ->tel()
                             ->maxLength(255),
 
                         Forms\Components\Textarea::make('address')
-                            ->label('Address')
+                            ->label(__('Alamat'))
                             ->columnSpanFull(),
 
                         Forms\Components\Select::make('roles')
-                            ->label('Roles')
+                            ->label(__('Peran'))
                             ->relationship('roles', 'name')
                             ->getOptionLabelFromRecordUsing(fn ($record) => str($record->name)->headline())
                             ->multiple()
@@ -99,11 +118,11 @@ class UserResource extends Resource
                             ->searchable(),
 
                         Forms\Components\Toggle::make('active_status')
-                            ->label('Active Status')
+                            ->label(__('Status Aktif'))
                             ->required()
                             ->default(true)
                             ->disabled(fn ($record) => $record && $record->hasRole('super_admin'))
-                            ->helperText('Super admins cannot be deactivated for security reasons.'),
+                            ->helperText(__('Super admin tidak dapat dinonaktifkan demi alasan keamanan.')),
                     ])->columns(2),
             ]);
     }
@@ -114,50 +133,50 @@ class UserResource extends Resource
             ->mobileCards()
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url')
-                    ->label('Avatar')
+                    ->label(__('Avatar'))
                     ->circular()
                     ->alignment('center'),
 
                 Tables\Columns\TextColumn::make('full_name')
-                    ->label('Full Name')
+                    ->label(__('Nama Lengkap'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('first_name')
-                    ->label('First Name')
+                    ->label(__('Nama Depan'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('last_name')
-                    ->label('Last Name')
+                    ->label(__('Nama Belakang'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('username')
-                    ->label('Username')
+                    ->label(__('Username'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('Email'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->label('Verified At')
+                    ->label(__('Diverifikasi Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center'),
 
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->label('Roles')
+                    ->label(__('Peran'))
                     ->badge()
                     ->searchable()
                     ->alignment('center')
                     ->formatStateUsing(fn ($state): string => str($state)->headline()),
 
                 Tables\Columns\ToggleColumn::make('active_status')
-                    ->label('Active Status')
+                    ->label(__('Status Aktif'))
                     ->searchable()
                     ->disabled(fn ($record) => $record->hasRole('super_admin'))
                     ->alignment('center')
@@ -168,14 +187,14 @@ class UserResource extends Resource
                     }),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('Terdaftar Pada'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->alignment('center'),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('Terakhir Diperbarui'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -196,8 +215,8 @@ class UserResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('User updated')
-                            ->body('The user has been updated successfully.')
+                            ->title(__('Pengguna diperbarui'))
+                            ->body(__('Pengguna telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -206,8 +225,8 @@ class UserResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('User deleted')
-                            ->body('The user has been deleted successfully.')
+                            ->title(__('Pengguna dihapus'))
+                            ->body(__('Pengguna telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

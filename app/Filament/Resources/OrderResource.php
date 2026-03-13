@@ -18,10 +18,6 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static ?string $navigationLabel = 'Daftar Pesanan';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'order_number';
@@ -29,6 +25,18 @@ class OrderResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['order_number'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Daftar Pesanan');
     }
 
     public static function getNavigationBadge(): ?string
@@ -43,67 +51,68 @@ class OrderResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Manajemen Pesanan Pelanggan';
+        return __('Manajemen Pesanan Pelanggan');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Customer & Service')
-                    ->description('Link the order to a customer and their selected package.')
+                Forms\Components\Section::make(__('Pelanggan & Layanan'))
+                    ->description(__('Hubungkan pesanan ke pelanggan dan paket yang dipilih.'))
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('Customer')
+                            ->label(__('Pelanggan'))
                             ->options(User::all()->pluck('name', 'id'))
                             ->searchable()
                             ->required(),
                         Forms\Components\Select::make('package_id')
-                            ->label('Service Package')
+                            ->label(__('Paket Layanan'))
                             ->relationship('package', 'name')
                             ->searchable()
                             ->preload()
                             ->required(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Order Information')
-                    ->description('Core details regarding the order number and schedule.')
+                Forms\Components\Section::make(__('Informasi Pesanan'))
+                    ->description(__('Detail utama mengenai nomor pesanan dan jadwal.'))
                     ->schema([
                         Forms\Components\TextInput::make('order_number')
-                            ->label('Order Reference')
+                            ->label(__('Referensi Pesanan'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('booking_date')
-                            ->label('Event Date')
+                            ->label(__('Tanggal Acara'))
                             ->required(),
                         Forms\Components\Textarea::make('notes')
+                            ->label(__('Catatan'))
                             ->columnSpan('full'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Financial Status')
-                    ->description('Pricing and payment tracking for this transaction.')
+                Forms\Components\Section::make(__('Status Keuangan'))
+                    ->description(__('Pelacakan harga dan pembayaran untuk transaksi ini.'))
                     ->schema([
                         Forms\Components\TextInput::make('total_price')
-                            ->label('Total Amount')
+                            ->label(__('Total Harga'))
                             ->required()
                             ->numeric()
                             ->prefix('IDR'),
                         Forms\Components\Select::make('status')
-                            ->label('Order Status')
+                            ->label(__('Status Pesanan'))
                             ->options([
-                                'pending' => 'Pending',
-                                'confirmed' => 'Confirmed',
-                                'cancelled' => 'Cancelled',
-                                'completed' => 'Completed',
+                                'pending' => __('Tertunda'),
+                                'confirmed' => __('Dikonfirmasi'),
+                                'cancelled' => __('Dibatalkan'),
+                                'completed' => __('Selesai'),
                             ])
                             ->searchable()
                             ->required(),
                         Forms\Components\Select::make('payment_status')
-                            ->label('Payment Status')
+                            ->label(__('Status Pembayaran'))
                             ->options([
-                                'pending' => 'Pending',
-                                'paid' => 'Paid',
-                                'failed' => 'Failed',
+                                'pending' => __('Tertunda'),
+                                'paid' => __('Lunas'),
+                                'failed' => __('Gagal'),
                             ])
                             ->searchable()
                             ->required(),
@@ -118,49 +127,62 @@ class OrderResource extends Resource
             ->mobileCardFeatured('total_amount', 'rose')
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Customer')
+                    ->label(__('Pelanggan'))
                     ->numeric()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('package.name')
-                    ->label('Service Package')
+                    ->label(__('Paket Layanan'))
                     ->numeric()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('order_number')
-                    ->label('Order #')
+                    ->label(__('No. Pesanan'))
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('total_price')
-                    ->label('Amount')
+                    ->label(__('Harga'))
                     ->money('IDR')
                     ->sortable()
                     ->alignment('right'),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => __('Tertunda'),
+                        'confirmed' => __('Dikonfirmasi'),
+                        'cancelled' => __('Dibatalkan'),
+                        'completed' => __('Selesai'),
+                        default => $state,
+                    })
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('payment_status')
-                    ->label('Payment')
+                    ->label(__('Pembayaran'))
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => __('Tertunda'),
+                        'paid' => __('Lunas'),
+                        'failed' => __('Gagal'),
+                        default => $state,
+                    })
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('booking_date')
-                    ->label('Event Date')
+                    ->label(__('Tanggal Acara'))
                     ->date()
                     ->sortable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('notes')
-                    ->label('Notes')
+                    ->label(__('Catatan'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Order Date')
+                    ->label(__('Tanggal Pesan'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('Terakhir Diperbarui'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -171,7 +193,7 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('chat')
-                    ->label('Hubungi')
+                    ->label(__('Hubungi'))
                     ->icon('heroicon-o-chat-bubble-left-right')
                     ->color('success')
                     ->button()
@@ -180,12 +202,9 @@ class OrderResource extends Resource
                         $customerId = $record->user_id;
                         $adminId = \App\Models\User::role('super_admin')->first()?->id ?? 1;
 
-                        // JIKA pesanan ini milik saya sendiri, chat ke diri sendiri.
-                        // JIKA pesanan milik orang lain, chat ke orang tersebut.
                         $targetId = ($authId == $customerId) ? $adminId : $customerId;
 
-                        // Cari atau buat Inbox secara otomatis
-                        $inbox = \Jeddsaliba\FilamentMessages\Models\Inbox::query()
+                        $inbox = \App\Models\Inbox::query()
                             ->whereJsonContains('user_ids', (int) $authId)
                             ->whereJsonContains('user_ids', (int) $targetId)
                             ->get()
@@ -196,23 +215,20 @@ class OrderResource extends Resource
                             });
 
                         if (! $inbox) {
-                            $inbox = \Jeddsaliba\FilamentMessages\Models\Inbox::create([
+                            $inbox = \App\Models\Inbox::create([
                                 'user_ids' => collect([(int) $authId, (int) $targetId])->unique()->values()->toArray(),
-                                'title' => 'Diskusi Order #'.$record->order_number,
+                                'title' => __('Diskusi Order #').$record->order_number,
                             ]);
 
-                            // Pesan Pembuka Otomatis
-                            \Jeddsaliba\FilamentMessages\Models\Message::create([
+                            \App\Models\Message::create([
                                 'inbox_id' => $inbox->id,
                                 'user_id' => $authId,
-                                'message' => "Halo, saya ingin mendiskusikan Pesanan #{$record->order_number}.",
+                                'message' => __("Halo, saya ingin mendiskusikan Pesanan #").$record->order_number.".",
                                 'read_by' => [$authId],
                             ]);
                         }
 
-                        $slug = config('filament-messages.slug', 'filament-messages');
-
-                        return "/admin/{$slug}/".$inbox->id;
+                        return \App\Filament\Pages\MessagesPage::getUrl(['id' => $inbox->id]);
                     }),
                 Tables\Actions\ViewAction::make()
                     ->button()
@@ -225,8 +241,8 @@ class OrderResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Order updated')
-                            ->body('The order has been updated successfully.')
+                            ->title(__('Pesanan diperbarui'))
+                            ->body(__('Pesanan telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -235,8 +251,8 @@ class OrderResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Order deleted')
-                            ->body('The order has been deleted successfully.')
+                            ->title(__('Pesanan dihapus'))
+                            ->body(__('Pesanan telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([

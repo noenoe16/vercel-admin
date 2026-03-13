@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Jeddsaliba\FilamentMessages\Models\Inbox;
-use Jeddsaliba\FilamentMessages\Models\Message;
+use App\Models\Inbox;
+use App\Models\Message;
 use spatie\querybuilder\QueryBuilder;
 
 class ChatController extends Controller

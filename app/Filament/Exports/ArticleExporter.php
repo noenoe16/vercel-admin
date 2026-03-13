@@ -15,7 +15,7 @@ class ArticleExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('author_id'),
             ExportColumn::make('title'),
             ExportColumn::make('slug'),

@@ -16,17 +16,17 @@ class ManageCategories extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(CategoryExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Kategori')
+                ->label(__('Tambah Kategori'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Kategori Ditambahkan')
-                        ->body('Kategori baru telah berhasil ditambahkan.')
+                        ->title(__('Kategori Ditambahkan'))
+                        ->body(__('Kategori baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

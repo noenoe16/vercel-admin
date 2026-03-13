@@ -12,17 +12,22 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Joaopaulolndev\FilamentEditProfile\Concerns\HasSort;
+
 use Livewire\Component;
 
 class UsernameComponent extends Component implements HasForms
 {
-    use HasSort;
+
     use InteractsWithForms;
 
     public ?array $data = [];
 
     protected static int $sort = 2;
+
+    public static function getSort(): int
+    {
+        return static::$sort;
+    }
 
     public function mount(): void
     {
@@ -41,13 +46,14 @@ class UsernameComponent extends Component implements HasForms
         return $form
             ->statePath('data')
             ->schema([
-                Section::make('Username')
+                Section::make(__('Username'))
                     ->aside()
-                    ->description('Update your username')
+                    ->icon('heroicon-o-identification')
+                    ->description(__('Perbarui username Anda'))
                     ->schema([
                         TextInput::make('username')
-                            ->label('Username')
-                            ->placeholder('Enter your username')
+                            ->label(__('Username'))
+                            ->placeholder(__('Masukkan username Anda'))
                             ->required()
                             ->minLength(3)
                             ->maxLength(255)
@@ -82,7 +88,7 @@ class UsernameComponent extends Component implements HasForms
 
             // Show success notification
             Notification::make()
-                ->title('Username updated successfully!')
+                ->title(__('Username berhasil diperbarui!'))
                 ->success()
                 ->send();
 
@@ -92,8 +98,8 @@ class UsernameComponent extends Component implements HasForms
 
             // Show error notification
             Notification::make()
-                ->title('Failed to update username')
-                ->body('An error occurred while updating your username. Please try again.')
+                ->title(__('Gagal memperbarui username'))
+                ->body(__('Terjadi kesalahan saat memperbarui username Anda. Silakan coba lagi.'))
                 ->danger()
                 ->send();
 

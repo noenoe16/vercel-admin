@@ -17,11 +17,19 @@ class PaymentMethodResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationLabel = 'Metode Pembayaran';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 5;
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Metode Pembayaran');
+    }
 
     public static function getNavigationBadge(): ?string
     {
@@ -35,7 +43,7 @@ class PaymentMethodResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Total Metode Pembayaran Aktif';
+        return __('Total Metode Pembayaran Aktif');
     }
 
     public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
@@ -44,34 +52,34 @@ class PaymentMethodResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(3)
                     ->schema([
-                        Forms\Components\Section::make('Konfigurasi Dasar')
-                            ->description('Tentukan identitas dan tipe metode pembayaran ini.')
+                        Forms\Components\Section::make(__('Konfigurasi Dasar'))
+                            ->description(__('Tentukan identitas dan tipe metode pembayaran ini.'))
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label('Nama Metode')
+                                    ->label(__('Nama Metode'))
                                     ->required()
                                     ->maxLength(255)
-                                    ->placeholder('e.g., Bank BCA, GoPay, OVO')
+                                    ->placeholder(__('e.g., Bank BCA, GoPay, OVO'))
                                     ->prefixIcon('heroicon-m-identification')
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('code', Str::slug($state)) : null),
 
                                 Forms\Components\TextInput::make('code')
-                                    ->label('Kode Unik')
+                                    ->label(__('Kode Unik'))
                                     ->required()
                                     ->unique(ignoreRecord: true)
                                     ->maxLength(255)
-                                    ->placeholder('e.g., bca, gopay')
+                                    ->placeholder(__('e.g., bca, gopay'))
                                     ->prefixIcon('heroicon-m-key'),
 
                                 Forms\Components\ToggleButtons::make('type')
-                                    ->label('Tipe Pembayaran')
+                                    ->label(__('Tipe Pembayaran'))
                                     ->options([
-                                        'bank_transfer' => 'Transfer Bank',
-                                        'ewallet' => 'E-Wallet',
-                                        'qris' => 'QRIS',
-                                        'cod' => 'Cash On Delivery (COD)',
-                                        'wallet' => 'Saldo Dompet (Topup)',
+                                        'bank_transfer' => __('Transfer Bank'),
+                                        'ewallet' => __('E-Wallet'),
+                                        'qris' => __('QRIS'),
+                                        'cod' => __('Cash On Delivery (COD)'),
+                                        'wallet' => __('Saldo Dompet (Topup)'),
                                     ])
                                     ->icons([
                                         'bank_transfer' => 'heroicon-m-building-library',
@@ -94,18 +102,18 @@ class PaymentMethodResource extends Resource
                             ])
                             ->columnSpan(2),
 
-                        Forms\Components\Section::make('Status & Biaya')
-                            ->description('Atur status aktif dan biaya admin.')
+                        Forms\Components\Section::make(__('Status & Biaya'))
+                            ->description(__('Atur status aktif dan biaya admin.'))
                             ->schema([
                                 Forms\Components\Toggle::make('is_active')
-                                    ->label('Status Aktif')
+                                    ->label(__('Status Aktif'))
                                     ->default(true)
-                                    ->helperText('Hanya metode aktif yang muncul di aplikasi.')
+                                    ->helperText(__('Hanya metode aktif yang muncul di aplikasi.'))
                                     ->onColor('success')
                                     ->offColor('danger'),
 
                                 Forms\Components\TextInput::make('fee')
-                                    ->label('Biaya Admin')
+                                    ->label(__('Biaya Admin'))
                                     ->numeric()
                                     ->prefix('Rp')
                                     ->default(0)
@@ -114,28 +122,28 @@ class PaymentMethodResource extends Resource
                             ->columnSpan(1),
                     ]),
 
-                Forms\Components\Section::make('Detail Konten & Instruksi')
-                    ->description('Lengkapi informasi rekening atau gambar QRIS.')
+                Forms\Components\Section::make(__('Detail Konten & Instruksi'))
+                    ->description(__('Lengkapi informasi rekening atau gambar QRIS.'))
                     ->schema([
                         Forms\Components\Grid::make(2)
                             ->schema([
                                 Forms\Components\TextInput::make('account_number')
-                                    ->label(fn (Forms\Get $get) => $get('type') === 'ewallet' ? 'Nomor E-Wallet / HP' : 'Nomor Rekening')
+                                    ->label(fn (Forms\Get $get) => $get('type') === 'ewallet' ? __('Nomor E-Wallet / HP') : __('Nomor Rekening'))
                                     ->required(fn (Forms\Get $get) => in_array($get('type'), ['bank_transfer', 'ewallet']))
-                                    ->placeholder('Masukkan nomor rekening atau HP...')
+                                    ->placeholder(__('Masukkan nomor rekening atau HP...'))
                                     ->visible(fn (Forms\Get $get) => in_array($get('type'), ['bank_transfer', 'ewallet']))
                                     ->prefixIcon('heroicon-m-hashtag'),
 
                                 Forms\Components\TextInput::make('account_holder')
-                                    ->label('Nama Pemilik Rekening')
+                                    ->label(__('Nama Pemilik Rekening'))
                                     ->required(fn (Forms\Get $get) => $get('type') === 'bank_transfer')
-                                    ->placeholder('e.g., PT Devi Make Up Wedding Organizer')
+                                    ->placeholder(__('e.g., PT Devi Make Up Wedding Organizer'))
                                     ->visible(fn (Forms\Get $get) => $get('type') === 'bank_transfer')
                                     ->prefixIcon('heroicon-m-user'),
                             ]),
 
                         Forms\Components\FileUpload::make('qris_image')
-                            ->label('Upload Gambar QRIS')
+                            ->label(__('Upload Gambar QRIS'))
                             ->image()
                             ->directory('payment-qris')
                             ->visibility('public')
@@ -145,16 +153,16 @@ class PaymentMethodResource extends Resource
                             ->columnSpanFull(),
 
                         Forms\Components\FileUpload::make('icon')
-                            ->label('Ikon / Logo')
+                            ->label(__('Ikon / Logo'))
                             ->image()
                             ->directory('payment-icons')
                             ->visibility('public')
-                            ->maxSize(102400000) // 100GB
+                            ->maxWidth(200)
                             ->columnSpanFull(),
 
                         Forms\Components\RichEditor::make('instructions')
-                            ->label('Instruksi Pembayaran')
-                            ->placeholder('Tuliskan langkah-langkah pembayaran di sini...')
+                            ->label(__('Instruksi Pembayaran'))
+                            ->placeholder(__('Tuliskan langkah-langkah pembayaran di sini...'))
                             ->columnSpanFull(),
                     ])
                     ->collapsible(),
@@ -168,22 +176,22 @@ class PaymentMethodResource extends Resource
             ->mobileCardFeatured('name', 'blue')
             ->columns([
                 Tables\Columns\ImageColumn::make('icon')
-                    ->label('Logo')
+                    ->label(__('Logo'))
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Metode')
+                    ->label(__('Metode'))
                     ->searchable()
                     ->sortable()
                     ->weight('bold'),
                 Tables\Columns\TextColumn::make('type')
-                    ->label('Tipe')
+                    ->label(__('Tipe'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'bank_transfer' => 'Bank',
-                        'ewallet' => 'E-Wallet',
-                        'qris' => 'QRIS',
-                        'cod' => 'COD',
-                        'wallet' => 'Saldo',
+                        'bank_transfer' => __('Bank'),
+                        'ewallet' => __('E-Wallet'),
+                        'qris' => __('QRIS'),
+                        'cod' => __('COD'),
+                        'wallet' => __('Saldo'),
                         default => $state,
                     })
                     ->color(fn (string $state): string => match ($state) {
@@ -196,31 +204,32 @@ class PaymentMethodResource extends Resource
                     })
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('account_number')
-                    ->label('Nomor Rekening/HP')
+                    ->label(__('Nomor Rekening/HP'))
                     ->searchable()
                     ->copyable()
                     ->alignment('center'),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('Aktif'))
                     ->boolean()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('fee')
-                    ->label('Admin Fee')
+                    ->label(__('Biaya Admin'))
                     ->money('IDR')
                     ->sortable()
                     ->alignment('right'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
+                    ->label(__('Tipe'))
                     ->options([
-                        'bank_transfer' => 'Bank',
-                        'ewallet' => 'E-Wallet',
-                        'qris' => 'QRIS',
-                        'cod' => 'COD',
-                        'wallet' => 'Saldo',
+                        'bank_transfer' => __('Bank'),
+                        'ewallet' => __('E-Wallet'),
+                        'qris' => __('QRIS'),
+                        'cod' => __('COD'),
+                        'wallet' => __('Saldo'),
                     ]),
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status Aktif'),
+                    ->label(__('Status Aktif')),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -234,8 +243,8 @@ class PaymentMethodResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Metode Diperbarui')
-                            ->body('Metode pembayaran telah berhasil diperbarui.')
+                            ->title(__('Metode Diperbarui'))
+                            ->body(__('Metode pembayaran telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -244,16 +253,12 @@ class PaymentMethodResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Metode Dihapus')
-                            ->body('Metode pembayaran telah berhasil dihapus.')
+                            ->title(__('Metode Dihapus'))
+                            ->body(__('Metode pembayaran telah berhasil dihapus.'))
                     ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\ExportBulkAction::make()
-                        ->exporter(\App\Filament\Exports\PaymentMethodExporter::class)
-                        ->label('Ekspor yang Dipilih')
-                        ->icon('heroicon-o-arrow-down-tray'),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

@@ -15,25 +15,25 @@ class PaymentMethodExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('ID')),
             ExportColumn::make('name')
-                ->label('Nama Metode'),
+                ->label(__('Nama Metode')),
             ExportColumn::make('type')
-                ->label('Tipe'),
+                ->label(__('Tipe')),
             ExportColumn::make('code')
-                ->label('Kode'),
+                ->label(__('Kode')),
             ExportColumn::make('account_number')
-                ->label('Nomor Akun'),
+                ->label(__('Nomor Akun')),
             ExportColumn::make('account_holder')
-                ->label('Nama Pemilik'),
+                ->label(__('Nama Pemilik')),
             ExportColumn::make('fee')
-                ->label('Biaya'),
+                ->label(__('Biaya')),
             ExportColumn::make('is_active')
-                ->label('Status Aktif'),
+                ->label(__('Status Aktif')),
             ExportColumn::make('created_at')
-                ->label('Dibuat Pada'),
+                ->label(__('Dibuat Pada')),
             ExportColumn::make('updated_at')
-                ->label('Diperbarui Pada'),
+                ->label(__('Diperbarui Pada')),
         ];
     }
 

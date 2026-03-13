@@ -51,6 +51,7 @@ return array(
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\Clock\\' => array($vendorDir . '/symfony/clock'),
+    'Stichoza\\GoogleTranslate\\' => array($vendorDir . '/stichoza/google-translate-php/src'),
     'Spatie\\YamlFrontMatter\\' => array($vendorDir . '/spatie/yaml-front-matter/src'),
     'Spatie\\Url\\' => array($vendorDir . '/spatie/url/src'),
     'Spatie\\TemporaryDirectory\\' => array($vendorDir . '/spatie/temporary-directory/src'),

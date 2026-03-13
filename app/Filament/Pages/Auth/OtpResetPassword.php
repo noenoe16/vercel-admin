@@ -52,7 +52,7 @@ class OtpResetPassword extends BaseResetPassword
             Cache::forget('password_reset_otp_' . $email);
 
             Notification::make()
-                ->title('Password reset successfully.')
+                ->title(__('Kata sandi berhasil diatur ulang.'))
                 ->success()
                 ->send();
 
@@ -60,7 +60,7 @@ class OtpResetPassword extends BaseResetPassword
             return null;
         } else {
             Notification::make()
-                ->title('Invalid or expired OTP code.')
+                ->title(__('Kode OTP tidak valid atau telah kadaluarsa.'))
                 ->danger()
                 ->send();
             
@@ -82,7 +82,7 @@ class OtpResetPassword extends BaseResetPassword
     protected function getOtpFormComponent(): Component
     {
         return TextInput::make('otp')
-            ->label('6-Digit OTP Code')
+            ->label(__('6 Digit Kode OTP'))
             ->required()
             ->length(6)
             ->numeric()

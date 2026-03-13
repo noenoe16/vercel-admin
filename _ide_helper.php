@@ -10805,6 +10805,26 @@ namespace Illuminate\Support\Facades {
      */
     class Lang {
         /**
+         * @static
+         */
+        public static function setAutoTranslationService($service)
+        {
+            /** @var \App\Translators\AutoTranslator $instance */
+            return $instance->setAutoTranslationService($service);
+        }
+
+        /**
+         * Override get() — jika terjemahan tidak ditemukan, otomatis terjemahkan.
+         *
+         * @static
+         */
+        public static function get($key, $replace = [], $locale = null, $fallback = true)
+        {
+            /** @var \App\Translators\AutoTranslator $instance */
+            return $instance->get($key, $replace, $locale, $fallback);
+        }
+
+        /**
          * Determine if a translation exists for a given locale.
          *
          * @param string $key
@@ -10814,7 +10834,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function hasForLocale($key, $locale = null)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->hasForLocale($key, $locale);
         }
 
@@ -10829,24 +10850,9 @@ namespace Illuminate\Support\Facades {
          */
         public static function has($key, $locale = null, $fallback = true)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->has($key, $locale, $fallback);
-        }
-
-        /**
-         * Get the translation for the given key.
-         *
-         * @param string $key
-         * @param array $replace
-         * @param string|null $locale
-         * @param bool $fallback
-         * @return string|array
-         * @static
-         */
-        public static function get($key, $replace = [], $locale = null, $fallback = true)
-        {
-            /** @var \Illuminate\Translation\Translator $instance */
-            return $instance->get($key, $replace, $locale, $fallback);
         }
 
         /**
@@ -10861,7 +10867,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function choice($key, $number, $replace = [], $locale = null)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->choice($key, $number, $replace, $locale);
         }
 
@@ -10876,7 +10883,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function addLines($lines, $locale, $namespace = '*')
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->addLines($lines, $locale, $namespace);
         }
 
@@ -10891,7 +10899,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function load($namespace, $group, $locale)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->load($namespace, $group, $locale);
         }
 
@@ -10904,7 +10913,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function handleMissingKeysUsing($callback)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->handleMissingKeysUsing($callback);
         }
 
@@ -10918,7 +10928,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function addNamespace($namespace, $hint)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->addNamespace($namespace, $hint);
         }
 
@@ -10931,7 +10942,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function addPath($path)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->addPath($path);
         }
 
@@ -10944,7 +10956,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function addJsonPath($path)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->addJsonPath($path);
         }
 
@@ -10957,7 +10970,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function parseKey($key)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->parseKey($key);
         }
 
@@ -10970,7 +10984,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function determineLocalesUsing($callback)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->determineLocalesUsing($callback);
         }
 
@@ -10982,7 +10997,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function getSelector()
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->getSelector();
         }
 
@@ -10995,7 +11011,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function setSelector($selector)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->setSelector($selector);
         }
 
@@ -11007,7 +11024,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function getLoader()
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->getLoader();
         }
 
@@ -11019,7 +11037,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function locale()
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->locale();
         }
 
@@ -11031,7 +11050,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function getLocale()
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->getLocale();
         }
 
@@ -11045,7 +11065,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function setLocale($locale)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->setLocale($locale);
         }
 
@@ -11057,7 +11078,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function getFallback()
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             return $instance->getFallback();
         }
 
@@ -11070,7 +11092,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function setFallback($fallback)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->setFallback($fallback);
         }
 
@@ -11083,7 +11106,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function setLoaded($loaded)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->setLoaded($loaded);
         }
 
@@ -11097,7 +11121,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function stringable($class, $handler = null)
         {
-            /** @var \Illuminate\Translation\Translator $instance */
+            //Method inherited from \Illuminate\Translation\Translator 
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->stringable($class, $handler);
         }
 
@@ -11112,7 +11137,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function macro($name, $macro)
         {
-            \Illuminate\Translation\Translator::macro($name, $macro);
+            //Method inherited from \Illuminate\Translation\Translator 
+            \App\Translators\AutoTranslator::macro($name, $macro);
         }
 
         /**
@@ -11126,7 +11152,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function mixin($mixin, $replace = true)
         {
-            \Illuminate\Translation\Translator::mixin($mixin, $replace);
+            //Method inherited from \Illuminate\Translation\Translator 
+            \App\Translators\AutoTranslator::mixin($mixin, $replace);
         }
 
         /**
@@ -11138,7 +11165,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function hasMacro($name)
         {
-            return \Illuminate\Translation\Translator::hasMacro($name);
+            //Method inherited from \Illuminate\Translation\Translator 
+            return \App\Translators\AutoTranslator::hasMacro($name);
         }
 
         /**
@@ -11149,7 +11177,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function flushMacros()
         {
-            \Illuminate\Translation\Translator::flushMacros();
+            //Method inherited from \Illuminate\Translation\Translator 
+            \App\Translators\AutoTranslator::flushMacros();
         }
 
         /**
@@ -11163,7 +11192,7 @@ namespace Illuminate\Support\Facades {
         public static function setParsedKey($key, $parsed)
         {
             //Method inherited from \Illuminate\Support\NamespacedItemResolver 
-            /** @var \Illuminate\Translation\Translator $instance */
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->setParsedKey($key, $parsed);
         }
 
@@ -11176,7 +11205,7 @@ namespace Illuminate\Support\Facades {
         public static function flushParsedKeys()
         {
             //Method inherited from \Illuminate\Support\NamespacedItemResolver 
-            /** @var \Illuminate\Translation\Translator $instance */
+            /** @var \App\Translators\AutoTranslator $instance */
             $instance->flushParsedKeys();
         }
 
@@ -24096,14 +24125,6 @@ namespace Jenssegers\Agent\Facades {
             }
     }
 
-namespace Joaopaulolndev\FilamentEditProfile\Facades {
-    /**
-     * @see \Joaopaulolndev\FilamentEditProfile\FilamentEditProfile
-     */
-    class FilamentEditProfile {
-            }
-    }
-
 namespace Laravel\Socialite\Facades {
     /**
      */
@@ -29826,39 +29847,6 @@ namespace Livewire\Features\SupportTesting {
             }
     }
 
-namespace Joaopaulolndev\FilamentEditProfile\Pages {
-    /**
-     */
-    class EditProfilePage extends \Filament\Pages\Page {
-            }
-    }
-
-namespace Filament\Pages {
-    /**
-     */
-    class Page extends \Filament\Pages\BasePage {
-            }
-    /**
-     */
-    class BasePage extends \Livewire\Component {
-            }
-    /**
-     */
-    class SimplePage extends \Filament\Pages\BasePage {
-            }
-    /**
-     */
-    class Dashboard extends \Filament\Pages\Page {
-            }
-    }
-
-namespace Jeddsaliba\FilamentMessages\Filament\Pages {
-    /**
-     */
-    class Messages extends \Filament\Pages\Page {
-            }
-    }
-
 namespace App\Filament\Resources\ArticleResource\Pages {
     /**
      */
@@ -29878,6 +29866,25 @@ namespace Filament\Resources\Pages {
     /**
      */
     class Page extends \Filament\Pages\Page {
+            }
+    }
+
+namespace Filament\Pages {
+    /**
+     */
+    class Page extends \Filament\Pages\BasePage {
+            }
+    /**
+     */
+    class BasePage extends \Livewire\Component {
+            }
+    /**
+     */
+    class SimplePage extends \Filament\Pages\BasePage {
+            }
+    /**
+     */
+    class Dashboard extends \Filament\Pages\Page {
             }
     }
 
@@ -30052,6 +30059,14 @@ namespace App\Filament\Pages {
     /**
      */
     class Dashboard extends \Filament\Pages\Dashboard {
+            }
+    /**
+     */
+    class EditProfilePage extends \Filament\Pages\Page {
+            }
+    /**
+     */
+    class MessagesPage extends \Filament\Pages\Page {
             }
     }
 
@@ -35764,7 +35779,6 @@ namespace  {
     class EloquentSerialize extends \AnourValar\EloquentSerialize\Facades\EloquentSerializeFacade {}
     class FilamentBreezy extends \Jeffgreco13\FilamentBreezy\Facades\FilamentBreezy {}
     class Agent extends \Jenssegers\Agent\Facades\Agent {}
-    class FilamentEditProfile extends \Joaopaulolndev\FilamentEditProfile\Facades\FilamentEditProfile {}
     class Socialite extends \Laravel\Socialite\Facades\Socialite {}
     class Flux extends \Flux\Flux {}
     class Livewire extends \Livewire\Livewire {}

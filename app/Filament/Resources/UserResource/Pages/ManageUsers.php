@@ -15,17 +15,17 @@ class ManageUsers extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\UserExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Pengguna')
+                ->label(__('Tambah Pengguna'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Pengguna Ditambahkan')
-                        ->body('Data pengguna baru telah berhasil ditambahkan.')
+                        ->title(__('Pengguna Ditambahkan'))
+                        ->body(__('Data pengguna baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

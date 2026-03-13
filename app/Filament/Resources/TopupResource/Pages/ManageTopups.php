@@ -15,17 +15,17 @@ class ManageTopups extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\TopupExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Topup')
+                ->label(__('Tambah Topup'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Topup Ditambahkan')
-                        ->body('Data topup baru telah berhasil ditambahkan.')
+                        ->title(__('Topup Ditambahkan'))
+                        ->body(__('Data topup baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

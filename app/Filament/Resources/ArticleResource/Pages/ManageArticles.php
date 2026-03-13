@@ -16,17 +16,17 @@ class ManageArticles extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(ArticleExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Artikel')
+                ->label(__('Tambah Artikel'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Artikel Ditambahkan')
-                        ->body('Artikel baru telah berhasil ditambahkan.')
+                        ->title(__('Artikel Ditambahkan'))
+                        ->body(__('Artikel baru telah berhasil ditambahkan.'))
                 ),
         ];
     }

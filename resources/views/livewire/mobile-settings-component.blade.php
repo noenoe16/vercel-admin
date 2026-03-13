@@ -2,17 +2,17 @@
     <x-filament::section
         aside
         icon="heroicon-o-device-phone-mobile"
-        heading="App Settings"
-        description="Buka pengaturan aplikasi untuk memberikan izin (kamera, lokasi, dll) jika sebelumnya ditolak."
+        :heading="__('Pengaturan Aplikasi')"
+        :description="__('Buka pengaturan aplikasi untuk memberikan izin (kamera, lokasi, dll) jika sebelumnya ditolak.')"
     >
-        <div class="flex items-center gap-x-3">
+        <div class="flex items-center justify-end gap-x-3">
              <x-filament::button
                 wire:click="openSettings"
                 color="primary"
                 icon="heroicon-o-cog-6-tooth"
                 size="sm"
             >
-                Buka Pengaturan HP
+                {{ __('Buka Pengaturan HP') }}
             </x-filament::button>
         </div>
     </x-filament::section>

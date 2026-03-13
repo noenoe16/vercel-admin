@@ -20,10 +20,6 @@ class PaymentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationLabel = 'Pembayaran';
-
-    protected static ?string $navigationGroup = 'Transactions';
-
     protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'payment_number';
@@ -31,6 +27,18 @@ class PaymentResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['payment_number'];
+    }
+
+    
+    
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Transaksi');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Pembayaran');
     }
 
     public static function getNavigationBadge(): ?string
@@ -45,28 +53,28 @@ class PaymentResource extends Resource
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Verifikasi Pembayaran Pending';
+        return __('Verifikasi Pembayaran Pending');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Info Pesanan & Pembayaran')
-                    ->description('Hubungkan pembayaran ke pesanan dan atur detail pembayaran.')
+                Forms\Components\Section::make(__('Info Pesanan & Pembayaran'))
+                    ->description(__('Hubungkan pembayaran ke pesanan dan atur detail pembayaran.'))
                     ->schema([
                         Forms\Components\Select::make('order_id')
-                            ->label('Pesanan')
+                            ->label(__('Pesanan'))
                             ->relationship('order', 'order_number')
                             ->searchable()
                             ->preload()
                             ->required(),
                         Forms\Components\TextInput::make('payment_number')
-                            ->label('Nomor Pembayaran')
+                            ->label(__('Nomor Pembayaran'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Select::make('payment_method')
-                            ->label('Metode Pembayaran')
+                            ->label(__('Metode Pembayaran'))
                             ->relationship('methodDetails', 'name', fn ($query) => $query->where('is_active', true))
                             ->searchable()
                             ->preload()
@@ -81,17 +89,17 @@ class PaymentResource extends Resource
                                 }
                             }),
                         Forms\Components\Select::make('status')
-                            ->label('Status Pembayaran')
+                            ->label(__('Status Pembayaran'))
                             ->options(Payment::statusLabels())
                             ->searchable()
                             ->required(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Detail Keuangan')
-                    ->description('Harga dan pelacakan pembayaran untuk transaksi ini.')
+                Forms\Components\Section::make(__('Detail Keuangan'))
+                    ->description(__('Harga dan pelacakan pembayaran untuk transaksi ini.'))
                     ->schema([
                         Forms\Components\TextInput::make('amount')
-                            ->label('Jumlah')
+                            ->label(__('Jumlah'))
                             ->required()
                             ->numeric()
                             ->prefix('Rp')
@@ -108,62 +116,62 @@ class PaymentResource extends Resource
                                 }
                             }),
                         Forms\Components\TextInput::make('admin_fee')
-                            ->label('Biaya Admin')
+                            ->label(__('Biaya Admin'))
                             ->required()
                             ->numeric()
                             ->default(0.00)
                             ->prefix('Rp')
                             ->readOnly(),
                         Forms\Components\TextInput::make('total_amount')
-                            ->label('Total Jumlah')
+                            ->label(__('Total Jumlah'))
                             ->required()
                             ->numeric()
                             ->prefix('Rp')
                             ->readOnly(),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Bukti Pembayaran')
-                    ->description('Foto struk atau bukti transfer dari user.')
+                Forms\Components\Section::make(__('Bukti Pembayaran'))
+                    ->description(__('Foto struk atau bukti transfer dari user.'))
                     ->schema([
                         Forms\Components\FileUpload::make('payment_proof')
-                            ->label('Upload Bukti')
+                            ->label(__('Upload Bukti'))
                             ->image()
                             ->directory('payment-proofs')
                             ->visibility('public')
                             ->columnSpan('full'),
                     ]),
 
-                Forms\Components\Section::make('Kecerdasan Buatan (AI Scan)')
-                    ->description('Hasil analisa otomatis terhadap bukti pembayaran.')
+                Forms\Components\Section::make(__('Kecerdasan Buatan (AI Scan)'))
+                    ->description(__('Hasil analisa otomatis terhadap bukti pembayaran.'))
                     ->schema([
                         Forms\Components\Placeholder::make('ai_status')
-                            ->label('Status Scan AI')
-                            ->content(fn ($record) => $record?->metadata['ai_analysis']['is_verified_by_ai'] ?? false ? '✅ Valid (Terverifikasi Otomatis)' : '⏳ Belum di-scan/Manual'),
+                            ->label(__('Status Scan AI'))
+                            ->content(fn ($record) => $record?->metadata['ai_analysis']['is_verified_by_ai'] ?? false ? '✅ ' . __('Valid (Terverifikasi Otomatis)') : '⏳ ' . __('Belum di-scan/Manual')),
                         Forms\Components\KeyValue::make('metadata.ai_analysis')
-                            ->label('Detail Analisa AI')
-                            ->keyLabel('Atribut')
-                            ->valueLabel('Hasil')
+                            ->label(__('Detail Analisa AI'))
+                            ->keyLabel(__('Atribut'))
+                            ->valueLabel(__('Hasil'))
                             ->columnSpan('full'),
                     ])
                     ->collapsed()
                     ->visible(fn ($record) => isset($record->metadata['ai_analysis'])),
 
-                Forms\Components\Section::make('Waktu')
-                    ->description('Tanggal penting untuk pembayaran ini.')
+                Forms\Components\Section::make(__('Waktu'))
+                    ->description(__('Tanggal penting untuk pembayaran ini.'))
                     ->schema([
                         Forms\Components\DateTimePicker::make('paid_at')
-                            ->label('Dibayar Pada'),
+                            ->label(__('Dibayar Pada')),
                         Forms\Components\DateTimePicker::make('expired_at')
-                            ->label('Kadaluarsa Pada'),
+                            ->label(__('Kadaluarsa Pada')),
                         Forms\Components\DateTimePicker::make('cancelled_at')
-                            ->label('Dibatalkan Pada'),
+                            ->label(__('Dibatalkan Pada')),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Catatan Tambahan')
-                    ->description('Informasi atau keterangan tambahan.')
+                Forms\Components\Section::make(__('Catatan Tambahan'))
+                    ->description(__('Informasi atau keterangan tambahan.'))
                     ->schema([
                         Forms\Components\Textarea::make('notes')
-                            ->label('Catatan')
+                            ->label(__('Catatan'))
                             ->columnSpan('full'),
                     ]),
             ]);
@@ -174,19 +182,19 @@ class PaymentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order.user.name')
-                    ->label('Pelanggan')
+                    ->label(__('Pelanggan'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('payment_number')
-                    ->label('Payment Number')
+                    ->label(__('Nomor Pembayaran'))
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('total_amount')
-                    ->label('Jumlah')
+                    ->label(__('Jumlah'))
                     ->money('IDR')
                     ->sortable()
                     ->alignment('right'),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
@@ -198,21 +206,21 @@ class PaymentResource extends Resource
                     })
                     ->alignment('center'),
                 Tables\Columns\TextColumn::make('methodDetails.name')
-                    ->label('Metode')
+                    ->label(__('Metode'))
                     ->searchable()
                     ->alignment('center'),
                 Tables\Columns\IconColumn::make('metadata.ai_analysis.is_verified_by_ai')
-                    ->label('AI')
+                    ->label(__('AI'))
                     ->boolean()
                     ->trueIcon('heroicon-o-cpu-chip')
                     ->falseIcon('heroicon-o-user')
                     ->trueColor('success')
                     ->falseColor('gray')
-                    ->tooltip(fn ($state) => $state ? 'Diverifikasi oleh AI' : 'Verifikasi Manual/Belum Scan')
+                    ->tooltip(fn ($state) => $state ? __('Diverifikasi oleh AI') : __('Verifikasi Manual/Belum Scan'))
                     ->alignment('center'),
 
                 Tables\Columns\ImageColumn::make('payment_proof')
-                    ->label('Bukti')
+                    ->label(__('Bukti'))
                     ->width(80)
                     ->height(80)
                     ->square()
@@ -220,31 +228,31 @@ class PaymentResource extends Resource
                     ->openUrlInNewTab(),
 
                 Tables\Columns\TextColumn::make('paid_at')
-                    ->label('Dibayar Pada')
+                    ->label(__('Dibayar Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('expired_at')
-                    ->label('Kadaluarsa Pada')
+                    ->label(__('Kadaluarsa Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('cancelled_at')
-                    ->label('Dibatalkan Pada')
+                    ->label(__('Dibatalkan Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Waktu')
+                    ->label(__('Waktu'))
                     ->dateTime('d M Y H:i')
                     ->sortable()
                     ->alignment('center')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Diperbarui Pada')
+                    ->label(__('Diperbarui Pada'))
                     ->dateTime()
                     ->sortable()
                     ->alignment('center')
@@ -259,7 +267,7 @@ class PaymentResource extends Resource
                     ->color('info')
                     ->size('lg'),
                 Tables\Actions\Action::make('verify')
-                    ->label('Verifikasi')
+                    ->label(__('Verifikasi'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->size('lg')
@@ -272,11 +280,11 @@ class PaymentResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Pembayaran diverifikasi')
-                            ->body('Pembayaran telah berhasil diverifikasi.')
+                            ->title(__('Pembayaran diverifikasi'))
+                            ->body(__('Pembayaran telah berhasil diverifikasi.'))
                     ),
                 Tables\Actions\Action::make('reject')
-                    ->label('Tolak')
+                    ->label(__('Tolak'))
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->size('lg')
@@ -286,7 +294,7 @@ class PaymentResource extends Resource
                     ->form([
                         Forms\Components\Textarea::make('reason')
                             ->required()
-                            ->label('Alasan Penolakan'),
+                            ->label(__('Alasan Penolakan')),
                     ])
                     ->action(function (Payment $record, array $data): void {
                         $record->markAsFailed($data['reason']);
@@ -294,8 +302,8 @@ class PaymentResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->danger()
-                            ->title('Pembayaran ditolak')
-                            ->body('Pembayaran telah ditolak.')
+                            ->title(__('Pembayaran ditolak'))
+                            ->body(__('Pembayaran telah ditolak.'))
                     ),
                 Tables\Actions\EditAction::make()
                     ->button()
@@ -304,8 +312,8 @@ class PaymentResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Pembayaran diperbarui')
-                            ->body('Pembayaran telah berhasil diperbarui.')
+                            ->title(__('Pembayaran diperbarui'))
+                            ->body(__('Pembayaran telah berhasil diperbarui.'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->button()
@@ -314,15 +322,10 @@ class PaymentResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Pembayaran dihapus')
-                            ->body('Pembayaran telah berhasil dihapus.')
+                            ->title(__('Pembayaran dihapus'))
+                            ->body(__('Pembayaran telah berhasil dihapus.'))
                     ),
             ])
-            // ->headerActions([
-            //     ExportAction::make()
-            //         ->exporter(PaymentExporter::class)
-            //         ->label('Export Payments'),
-            // ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make()

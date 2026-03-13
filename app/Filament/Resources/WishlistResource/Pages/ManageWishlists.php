@@ -15,17 +15,17 @@ class ManageWishlists extends ManageRecords
         return [
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\WishlistExporter::class)
-                ->label('Ekspor Data')
+                ->label(__('Ekspor Data'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success'),
             Actions\CreateAction::make()
-                ->label('Tambah Wishlist')
+                ->label(__('Tambah Wishlist'))
                 ->icon('heroicon-o-plus')
                 ->successNotification(
                     \Filament\Notifications\Notification::make()
                         ->success()
-                        ->title('Wishlist Ditambahkan')
-                        ->body('Wishlist baru telah berhasil ditambahkan.')
+                        ->title(__('Wishlist Ditambahkan'))
+                        ->body(__('Wishlist baru telah berhasil ditambahkan.'))
                 ),
         ];
     }
