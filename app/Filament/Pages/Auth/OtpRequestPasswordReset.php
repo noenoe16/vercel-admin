@@ -40,10 +40,10 @@ class OtpRequestPasswordReset extends BaseRequestPasswordReset
             ->success()
             ->send();
 
-        // Use a standard non-signed route first to see if 403 goes away with our middleware fix
-        // Actually, we fixed trustProxies, so standard route should be fine.
-        $this->redirect(Filament::getCurrentPanel()->route('auth.password-reset.reset', [
+        // Redirect langsung dengan cara standar Filament
+        $this->redirect(route('filament.admin.auth.password-reset.reset', [
             'email' => $email,
+            'token' => 'otp', // Token dummy agar route-nya valid
         ]));
     }
 
