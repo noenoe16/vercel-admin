@@ -9,11 +9,14 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Form;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+
 use Illuminate\Support\Facades\Route;
 
 class VerifyOtp extends \Filament\Pages\SimplePage
 {
-    protected static string $view = 'filament-panels::pages.auth.password-reset.reset-password';
+    use InteractsWithFormActions;
+    protected static string $view = 'filament.auth.verify-otp';
     protected static string $layout = 'filament-panels::components.layout.simple';
 
     public $email = '';

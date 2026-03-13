@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
 use Filament\Actions\Action;
+use Filament\Pages\Concerns\InteractsWithFormActions;
 use Illuminate\Contracts\Support\Htmlable;
 use App\Models\User;
 
 class OtpEmailVerificationPrompt extends BasePrompt
 {
-    protected static string $view = 'filament.pages.auth.otp-email-verification-prompt';
+    use InteractsWithFormActions;
+    protected static string $view = 'filament.auth.otp-email-verification-prompt';
 
     public ?array $data = [];
 
