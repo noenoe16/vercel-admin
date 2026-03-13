@@ -40,11 +40,15 @@ class OtpRequestPasswordReset extends BaseRequestPasswordReset
             ->success()
             ->send();
 
-        // Redirect langsung dengan cara standar Filament
-        $this->redirect(route('filament.admin.auth.password-reset.reset', [
-            'email' => $email,
-            'token' => 'otp', // Token dummy agar route-nya valid
-        ]));
+        // Redirect dengan "Tanda Tangan" (Signature) resmi Laravel agar tidak kena 403
+        $this->redirect(\Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'filament.admin.auth.password-reset.reset',
+            now()->addMinutes(30),
+            [
+                'email' => $email,
+                'token' => 'otp',
+            ]
+        ));
     }
 
     protected function getEmailFormComponent(): Component
