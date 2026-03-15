@@ -1,12 +1,6 @@
 /node_modules
 /vendor
-.env.backup
-.env.production
-.phpunit.result.cache
-docker-compose.override.yml
-/.vercel
-/.vercel_build_output
-/auth.json
+
 
 
 
