@@ -1,0 +1,77 @@
+# Release Notes
+
+## [Unreleased](https://github.com/laravel/ranger/compare/v0.1.7...main)
+
+## [v0.1.7](https://github.com/laravel/ranger/compare/v0.1.6...v0.1.7) - 2026-01-12
+
+### What's Changed
+
+* Handle empty Inertia props correctly by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/13
+* Strip scheme from forced route URL in route by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/14
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.6...v0.1.7
+
+## [v0.1.6](https://github.com/laravel/ranger/compare/v0.1.5...v0.1.6) - 2026-01-06
+
+### What's Changed
+
+* Exclude `/workbench` directory as it only used for package development by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/ranger/pull/11
+* Detect and record `withAllErrors` property in Inertia by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/12
+
+### New Contributors
+
+* [@crynobone](https://github.com/crynobone) made their first contribution in https://github.com/laravel/ranger/pull/11
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.5...v0.1.6
+
+## [v0.1.5](https://github.com/laravel/ranger/compare/v0.1.4...v0.1.5) - 2025-12-29
+
+### What's Changed
+
+* Add file paths to model component by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/10
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.4...v0.1.5
+
+## [v0.1.4](https://github.com/laravel/ranger/compare/v0.1.3...v0.1.4) - 2025-12-29
+
+### What's Changed
+
+* Fix environment variable parsing for base paths specifically by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/8
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.3...v0.1.4
+
+## [v0.1.3](https://github.com/laravel/ranger/compare/v0.1.2...v0.1.3) - 2025-12-26
+
+### What's Changed
+
+* Handle eager loading of models and snake casing by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/6
+* Create release script by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/7
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.2...v0.1.3
+
+## [v0.1.2](https://github.com/laravel/ranger/compare/v0.1.1...v0.1.2) - 2025-12-26
+
+### What's Changed
+
+* Model relations fix by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/3
+* Fix static analysis by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/4
+* Remove unnecessary artifacts from release by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/5
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.1...v0.1.2
+
+## [v0.1.1](https://github.com/laravel/ranger/compare/v0.1.0...v0.1.1) - 2025-12-22
+
+### What's Changed
+
+* Set paths for tests by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/1
+* Fix Inertia optional property detection by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/ranger/pull/2
+
+### New Contributors
+
+* [@joetannenbaum](https://github.com/joetannenbaum) made their first contribution in https://github.com/laravel/ranger/pull/1
+
+**Full Changelog**: https://github.com/laravel/ranger/compare/v0.1.0...v0.1.1
+
+## v0.1.0 (202x-xx-xx)
+
+Initial pre-release.

@@ -90,7 +90,8 @@
     },
     "scripts": {
         "vercel": [
-            "mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache"
+            "npm install",
+            "npm run build"
         ],
         "setup": [
             "composer install",
