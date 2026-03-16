@@ -10,4 +10,8 @@
 /bootstrap/cache/*
 !/bootstrap/cache/.gitignore
 .phpunit.result.cache
-# /public/build (Removed to allow deployment of pre-built assets)
+# /public/build (Commented out to ensure Vercel CLI uploads pre-built assets)
+# /public/build
+
+.vercel
+.env*.local
