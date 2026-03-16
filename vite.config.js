@@ -38,10 +38,10 @@ export default defineConfig(async () => {
             // Update laravel plugin with hotFile if available
             plugins[0].config.hotFile = nativephpHotFile ? nativephpHotFile() : undefined;
         } catch (e) {
-            // NativePHP plugins not installed - this is normal in web-only environments
-            // Only warn in non-production environments where they should be available
-            if (process.env.NODE_ENV !== 'production') {
-                console.warn('NativePHP plugins not found, skipping mobile-specific features...');
+            // NativePHP plugins not installed - silently skip on Vercel and production
+            // Only log if explicitly in development mode and not on Vercel
+            if (process.env.DEBUG_VITE === '1') {
+                console.debug('NativePHP plugins not found, skipping mobile-specific features');
             }
         }
     }
